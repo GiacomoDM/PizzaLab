@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Roboto';
+  padding-top: 66px;
+  background: url('/src/assets/pizza-bg.jpg');
+  background-repeat: repeat;
+}
