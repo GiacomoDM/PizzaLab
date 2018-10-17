@@ -1,0 +1,24 @@
+.navbar {
+  background-color: var(--color-primary);
+  box-shadow: var(--shadows-1);
+}
+
+.nav-item {
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.active, .nav-item:hover {
+  border-bottom: 2px solid var(--color-secondary);
+}
+
+.dropdown-menu {
+  top: 51px;
+  background-color: var(--color-primary-light);
+  box-shadow: var(--shadows-1);
+}
+
+.dropdown-item:hover {
+  color: white;
+  background-color: var(--color-primary-dark);
+}
