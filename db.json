@@ -1,0 +1,46 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Pizze classiche"
+    },
+    {
+      "id": 2,
+      "name": "Pizze speciali"
+    },
+    {
+      "id": 3,
+      "name": "Fritti"
+    },
+    {
+      "id": 4,
+      "name": "Bibite"
+    }    
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Margherita",
+      "price": 5,
+      "categoryId": 1
+    },  
+    {
+      "id": 2,
+      "name": "Salsiccia e friarielli",
+      "price": 7,
+      "categoryId": 2
+    },
+    {
+      "id": 3,
+      "name": "Patatine fritte",
+      "price": 3,
+      "categoryId": 3
+    },
+    {
+      "id": 4,
+      "name": "Coca-Cola",
+      "price": 2.5,
+      "categoryId": 4
+    }
+  ]
+}
