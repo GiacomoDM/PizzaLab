@@ -12,7 +12,7 @@ import { Product } from '../product';
 export class DashboardComponent implements OnInit {
 
   categories: Category[];
-  currentOrder: Product[];
+  currentOrder: Product[] = [];
   hasErrors: boolean;
   errorMsg: string;
 

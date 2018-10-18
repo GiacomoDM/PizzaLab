@@ -7,13 +7,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductComponent } from './product/product.component';
+import { CurrentOrderComponent } from './current-order/current-order.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     DashboardComponent,
-    ProductComponent
+    ProductComponent,
+    CurrentOrderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,23 @@
+.card {
+  height: 85vh;
+  box-shadow: var(--shadows-2);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+  box-shadow: var(--shadows-3);
+}
+
+.card-body {
+  flex: 0;
+}
+
+.list-group {
+  height: 100%;
+  overflow: auto;
+}
+
+.card-footer {
+  border: 0;
+  background-color: white;
+}

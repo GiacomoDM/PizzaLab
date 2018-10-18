@@ -1,3 +1,14 @@
-<div class="grid mx-4">
-  <app-product *ngFor="let categoryz of categories" [currentOrder]="currentOrder" [category]="categoryz"></app-product>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-9">
+      <div class="grid">
+        <app-product *ngFor="let categoryz of categories" [currentOrder]="currentOrder" [category]="categoryz"></app-product>
+      </div>
+    </div>
+    <div class="col-3">
+      <app-current-order [currentOrder]="currentOrder"></app-current-order>
+    </div>
+  </div>
 </div>
+
+
