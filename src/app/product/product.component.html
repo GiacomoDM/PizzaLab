@@ -1,3 +1,15 @@
-<ul>
-  <li *ngFor="let product of products"> {{product.name}} </li>
-</ul>
+<div class="card mb-4 category-card">
+  <img class="card-img-top" src="../../assets/product{{category.id}}.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{category.name}}</h5>
+    <h6 class="card-subtitle text-muted">Seleziona un prodotto per aggiungerlo all'ordine</h6>
+  </div>
+  <div class="card-columns mx-3 mb-1">
+    <div *ngFor="let product of products" class="card product-card">
+      <div class="card-body p-2">
+        <p class="card-text mb-0">{{product.name}}</p>
+        <span class="text-muted small">Prezzo: {{product.price | number: '1.2-2'}}€</span>
+      </div>
+    </div>
+  </div>
+</div>
