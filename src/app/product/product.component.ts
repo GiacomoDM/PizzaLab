@@ -38,4 +38,8 @@ export class ProductComponent implements OnInit {
       }
     );
   }
+
+  addProductToOrder(product: Product): void {
+    this.currentOrder.push(product);
+  }
 }

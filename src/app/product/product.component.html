@@ -5,7 +5,7 @@
     <h6 class="card-subtitle text-muted">Seleziona un prodotto per aggiungerlo all'ordine</h6>
   </div>
   <div class="card-columns mx-3 mb-1">
-    <div *ngFor="let product of products" class="card product-card">
+    <div *ngFor="let product of products" class="card product-card" (click)="addProductToOrder(product)">
       <div class="card-body p-2">
         <p class="card-text mb-0">{{product.name}}</p>
         <span class="text-muted small">Prezzo: {{product.price | number: '1.2-2'}}€</span>

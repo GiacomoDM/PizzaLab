@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Ordine</h5>
-    <p class="card-subtitle">Totale: <span class="float-right">{{getTotal()}} €</span></p>
+    <p class="card-subtitle">Totale: <span class="float-right">{{getTotal() | number: '1.2-2'}} €</span></p>
   </div>
   <ul class="list-group list-group-flush">
       <ng-container *ngIf="product; else noElements">

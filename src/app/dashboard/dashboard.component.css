@@ -9,3 +9,8 @@
       display: block;
   }
 }
+
+.product-list {
+  max-height: 85vh;
+  overflow: auto;
+}

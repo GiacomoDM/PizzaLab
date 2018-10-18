@@ -18,6 +18,7 @@ export class CurrentOrderComponent implements OnInit {
 
   getTotal() {
     return this.currentOrder.reduce((partial, actual) => partial + actual.price, 0);
+    console.log(this.currentOrder);
   }
 
 }
