@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let category of categories"> {{category.name}} </li>
+</ul>
+
+<app-product *ngFor="let categoryz of categories" [currentOrder]="currentOrder" [category]="categoryz"></app-product>
