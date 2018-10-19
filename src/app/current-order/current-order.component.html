@@ -21,7 +21,27 @@
       </ng-template>
   </ul>
   <div class="card-footer">
-    <a href="#" class="btn btn-outline-abort">Annulla</a>
-    <a href="#" class="btn btn-outline-confirm float-right">Conferma</a>
+    <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders" [disabled]="currentOrder.length === 0">Cancella</button>
+    <button type="button" class="btn btn-outline-confirm float-right">Conferma</button>
+  </div>
+</div>
+
+<div class="modal fade" id="clearOrders" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cancella ordine</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Confermando l'operazione tutti i prodotti inseriti nell'ordine corrente verranno eliminati.
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-abort" data-dismiss="modal">Annulla</button>
+        <button type="button" class="btn btn-outline-confirm" (click)="clearOrders()" data-dismiss="modal">Conferma</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -47,3 +47,13 @@
   border: 0;
   background-color: white;
 }
+
+#clearOrders .modal-content{
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+#clearOrders .modal-header {
+  color: white;
+  background-color: var(--color-primary-dark);
+}

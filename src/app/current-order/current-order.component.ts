@@ -28,8 +28,11 @@ export class CurrentOrderComponent implements OnInit {
   }
 
   removeProductFromOrder(index: number): void {
-    this.currentOrder.splice(index, 1);
-    this.updatedOrder.emit(this.currentOrder);
+    this.updatedOrder.emit(this.currentOrder.splice(index, 1));
   }
 
+  clearOrders(): void {
+    this.currentOrder.length = 0;
+    this.updatedOrder.emit(this.currentOrder);
+  }
 }
