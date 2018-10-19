@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { Category } from '../category';
 import { Product } from '../product';
 
 @Component({
@@ -10,6 +11,7 @@ import { Product } from '../product';
 export class CurrentOrderComponent implements OnInit {
 
   @Input() currentOrder: Product[];
+  @Input() categories: Category[];
   @Output() updatedOrder = new EventEmitter<Product[]>();
 
   constructor() { }

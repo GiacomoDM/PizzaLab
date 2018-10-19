@@ -23,7 +23,7 @@
 
 .remove {
   color: var(--color-primary-dark);
-  font-size: 115%;
+  font-size: 120%;
 }
 
 .remove:hover::after {
@@ -36,7 +36,7 @@
 
 .add {
   color: var(--color-secondary-dark);
-  font-size: 115%;
+  font-size: 120%;
 }
 
 .add:hover::after {
