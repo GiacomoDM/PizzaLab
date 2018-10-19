@@ -9,7 +9,7 @@ import { Product } from '../product';
 })
 export class CurrentOrderComponent implements OnInit {
 
-  @Input() currentOrder: Product[] = [];
+  @Input() currentOrder: Product[];
 
   constructor() { }
 

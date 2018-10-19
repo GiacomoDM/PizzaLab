@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Product } from './../product';
 import { Category } from './../category';
@@ -14,6 +14,7 @@ export class ProductComponent implements OnInit {
   @Input() category: Category;
   products: Product[];
   @Input() currentOrder: Product[];
+  @Output() updatedOrder = new EventEmitter<Product[]>();
   hasErrors: boolean;
   errorMsg: string;
 
@@ -41,5 +42,6 @@ export class ProductComponent implements OnInit {
 
   addProductToOrder(product: Product): void {
     this.currentOrder.push(product);
+    this.updatedOrder.emit(this.currentOrder);
   }
 }
