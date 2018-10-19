@@ -22,7 +22,7 @@
   </ul>
   <div class="card-footer">
     <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders" [disabled]="currentOrder.length === 0">Cancella</button>
-    <button type="button" class="btn btn-outline-confirm float-right">Conferma</button>
+    <button type="button" class="btn btn-outline-confirm float-right" [disabled]="currentOrder.length === 0">Conferma</button>
   </div>
 </div>
 

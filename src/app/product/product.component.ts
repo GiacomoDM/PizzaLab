@@ -13,12 +13,13 @@ import { ProductService } from './../product.service';
 export class ProductComponent implements OnInit {
 
   @Input() category: Category;
-  products: Product[];
+  products: Product[] = [];
   @Input() currentOrder: Product[];
   @Output() updatedOrder = new EventEmitter<Product[]>();
   hasErrors: boolean;
   errorMsg: string;
   addForm: FormGroup;
+  validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
 
   constructor(
@@ -65,6 +66,13 @@ export class ProductComponent implements OnInit {
   addProductToOrder(product: Product): void {
     this.currentOrder.push(product);
     this.updatedOrder.emit(this.currentOrder);
+  }
+
+  usedName(name: string) {
+    if (this.products.filter(p => p.name.toLowerCase() === name.toLowerCase()).length > 0) {
+      return true;
+    }
+    return false;
   }
 
   onSubmit(): void {
