@@ -4,8 +4,17 @@
     <p class="card-subtitle">Totale: <span class="float-right">{{getTotal() | number: '1.2-2'}} €</span></p>
   </div>
   <ul class="list-group list-group-flush">
-      <ng-container *ngIf="currentOrder; else noElements">
-        <li *ngFor="let item of currentOrder" class="list-group-item">{{item.name}}</li>
+      <ng-container *ngIf="currentOrder.length > 0; else noElements">
+        <li *ngFor="let item of currentOrder; let i = index" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 h-100 justify-content-between">
+            <p class="mb-0 align-self-center">{{item.name}}</p>
+            <div class="pl-2">
+              <p class="mb-0 small text-right">{{item.price | number: '1.2-2'}} €</p>
+              <i class="material-icons remove pr-1" (click)="removeProductFromOrder(i)"></i>
+              <i class="material-icons add" (click)="addProductToOrder(item)"></i>
+            </div>
+          </div>
+        </li>
       </ng-container>
       <ng-template #noElements>
         <li class="list-group-item text-muted">Nessun prodotto aggiunto all'ordine.</li>

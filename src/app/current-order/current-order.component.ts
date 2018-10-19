@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Product } from '../product';
 
@@ -10,15 +10,26 @@ import { Product } from '../product';
 export class CurrentOrderComponent implements OnInit {
 
   @Input() currentOrder: Product[];
+  @Output() updatedOrder = new EventEmitter<Product[]>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  getTotal() {
+  getTotal(): number {
     return this.currentOrder.reduce((partial, actual) => partial + actual.price, 0);
     console.log(this.currentOrder);
+  }
+
+  addProductToOrder(product: Product): void {
+    this.currentOrder.push(product);
+    this.updatedOrder.emit(this.currentOrder);
+  }
+
+  removeProductFromOrder(index: number): void {
+    this.currentOrder.splice(index, 1);
+    this.updatedOrder.emit(this.currentOrder);
   }
 
 }

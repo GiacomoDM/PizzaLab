@@ -17,6 +17,32 @@
   overflow: auto;
 }
 
+.remove::after {
+  content: 'remove_circle_outline';
+}
+
+.remove {
+  color: var(--color-primary-dark);
+  font-size: 115%;
+}
+
+.remove:hover::after {
+  content: "remove_circle";
+}
+
+.add::after {
+  content: 'add_circle_outline';
+}
+
+.add {
+  color: var(--color-secondary-dark);
+  font-size: 115%;
+}
+
+.add:hover::after {
+  content: "add_circle";
+}
+
 .card-footer {
   border: 0;
   background-color: white;
