@@ -26,4 +26,12 @@ export class ProductService {
       catchError(err => throwError(new Error('')))
     );
   }
+
+  addProduct (product: Product): Observable<Product> {
+    return this.http.post<Product>(this.productsUrl, product, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
 }

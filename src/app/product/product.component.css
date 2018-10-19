@@ -22,3 +22,26 @@
   background-color: var(--color-secondary-light);
   cursor: pointer;
 }
+
+.add::after {
+  content: 'add_circle_outline';
+}
+
+.add {
+  color: var(--color-secondary);
+  font-size: 200%;
+}
+
+.add:hover::after {
+  content: "add_circle";
+  cursor: pointer;
+}
+
+.modal-content {
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+.modal-header {
+  background-color: var(--color-secondary);
+}

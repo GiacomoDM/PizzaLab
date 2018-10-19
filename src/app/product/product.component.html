@@ -1,14 +1,54 @@
 <div class="card mb-4 category-card">
   <img class="card-img-top" src="../../assets/product{{category.id}}.jpg" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">{{category.name}}</h5>
-    <h6 class="card-subtitle text-muted">Seleziona un prodotto per aggiungerlo all'ordine</h6>
+  <div class="card-body d-flex justify-content-between p-3">
+    <h5 class="card-title mb-0 align-self-center">{{category.name}}</h5>
+    <!-- <h6 class="card-subtitle text-muted">Seleziona un prodotto per aggiungerlo all'ordine</h6> -->
+    <i class="material-icons add" data-toggle="modal" attr.data-target="#addProduct{{category.id}}"></i>
   </div>
-  <div class="card-columns mx-3 mb-1">
-    <div *ngFor="let product of products" class="card product-card" (click)="addProductToOrder(product)">
+  <div class="d-flex flex-wrap ml-3">
+    <div *ngFor="let product of products" class="card mr-3 mb-3 align-self-center product-card" (click)="addProductToOrder(product)">
       <div class="card-body p-2">
         <p class="card-text mb-0">{{product.name}}</p>
         <span class="text-muted small">Prezzo: {{product.price | number: '1.2-2'}}€</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addProduct{{category.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Aggiungi prodotto</h5>
+        <button #addClose type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addForm" id="addProduct{{category.id}}Form" (ngSubmit)="onSubmit()">
+          <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">Nome</label>
+            <div class="col-sm-9">
+              <input #name type="text" id="name" class="form-control" placeholder="Nome" required formControlName="name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="category" class="col-sm-3 col-form-label">Categoria</label>
+            <div class="col-sm-9">
+              <input type="text" id="category" readonly class="form-control-plaintext" value="{{category.name}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="price" class="col-sm-3 col-form-label">Prezzo (€)</label>
+            <div class="col-sm-9">
+              <input type="number" min="0.5" step="any" class="form-control" id="price" placeholder="Prezzo" required formControlName="price">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-abort" data-dismiss="modal">Annulla</button>
+        <button type="submit" attr.form="addProduct{{category.id}}Form" class="btn btn-outline-confirm" [disabled]="!addForm.valid">Conferma</button>
       </div>
     </div>
   </div>
