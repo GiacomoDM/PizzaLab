@@ -21,6 +21,8 @@ export class ProductComponent implements OnInit {
   addForm: FormGroup;
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
+  deleteMode = false;
+  selectedProduct: Product;
 
   constructor(
     private productService: ProductService
@@ -68,6 +70,11 @@ export class ProductComponent implements OnInit {
     this.updatedOrder.emit(this.currentOrder);
   }
 
+  removeProductFromOrder(product: Product): void {
+    this.currentOrder = this.currentOrder.filter(p => p !== product);
+    this.updatedOrder.emit(this.currentOrder);
+  }
+
   usedName(name: string) {
     if (this.products.filter(p => p.name.toLowerCase() === name.toLowerCase()).length > 0) {
       return true;
@@ -84,5 +91,26 @@ export class ProductComponent implements OnInit {
     this.addProduct(product);
     this.addClose.nativeElement.click();
     this.addForm.reset();
+  }
+
+  selectProduct(product: Product): void {
+    this.selectedProduct = product;
+  }
+
+  deleteProduct(product: Product): void {
+    this.productService.deleteProduct(product)
+    .subscribe(
+      () => {
+        this.selectedProduct = null;
+        this.removeProductFromOrder(product);
+        this.products = this.products.filter(p => p !== product);
+        this.deleteMode = false;
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile rimuovere il prodotto selezionato.';
+      }
+    );
   }
 }

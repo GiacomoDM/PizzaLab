@@ -77,18 +77,6 @@
       "price": 5.5,
       "categoryId": 1,
       "id": 11
-    },
-    {
-      "name": "Veneto",
-      "price": 7,
-      "categoryId": 2,
-      "id": 12
-    },
-    {
-      "name": "Bufala",
-      "price": 7.5,
-      "categoryId": 1,
-      "id": 13
     }
   ]
 }

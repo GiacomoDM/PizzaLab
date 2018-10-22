@@ -21,7 +21,6 @@ export class CurrentOrderComponent implements OnInit {
 
   getTotal(): number {
     return this.currentOrder.reduce((partial, actual) => partial + actual.price, 0);
-    console.log(this.currentOrder);
   }
 
   addProductToOrder(product: Product): void {
@@ -36,5 +35,9 @@ export class CurrentOrderComponent implements OnInit {
   clearOrders(): void {
     this.currentOrder.length = 0;
     this.updatedOrder.emit(this.currentOrder);
+  }
+
+  getCategoryName(product: Product): string {
+    return this.categories.find(cat => cat.id === product.categoryId).name;
   }
 }
