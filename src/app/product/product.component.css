@@ -23,6 +23,29 @@
   cursor: pointer;
 }
 
+.delete-card {
+  border-color: var(--color-primary-dark);
+}
+
+.delete-card:hover {
+  background-color: var(--color-primary-light);
+  cursor: pointer;
+}
+
+.remove::after {
+  content: 'delete_outline';
+}
+
+.remove {
+  color: var(--color-primary);
+  font-size: 200%;
+}
+
+.remove:hover::after {
+  content: "delete";
+  cursor: pointer;
+}
+
 .add::after {
   content: 'add_circle_outline';
 }
@@ -42,6 +65,11 @@
   box-shadow: var(--shadows-2);
 }
 
-.modal-header {
+.add-product .modal-header {
   background-color: var(--color-secondary);
+}
+
+.delete-product .modal-header {
+  background-color: var(--color-primary-dark);
+  color: white;
 }

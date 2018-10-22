@@ -34,4 +34,13 @@ export class ProductService {
       catchError(err => throwError(new Error('')))
     );
   }
+
+  deleteProduct (product: Product): Observable<Product> {
+    const url = `${this.productsUrl}/${product.id}`;
+    return this.http.delete<Product>(url, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
 }
