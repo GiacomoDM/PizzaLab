@@ -15,7 +15,7 @@
     {
       "id": 4,
       "name": "Bibite"
-    }    
+    }
   ],
   "products": [
     {
@@ -23,7 +23,7 @@
       "name": "Margherita",
       "price": 5,
       "categoryId": 1
-    },  
+    },
     {
       "id": 2,
       "name": "Salsiccia e friarielli",
@@ -41,6 +41,54 @@
       "name": "Coca-Cola",
       "price": 2.5,
       "categoryId": 4
+    },
+    {
+      "name": "Prosciutto e funghi",
+      "price": 5.5,
+      "categoryId": 1,
+      "id": 5
+    },
+    {
+      "name": "Salamino",
+      "price": 5.5,
+      "categoryId": 1,
+      "id": 6
+    },
+    {
+      "name": "Moretti 33cl",
+      "price": 2.5,
+      "categoryId": 4,
+      "id": 7
+    },
+    {
+      "name": "Bomba",
+      "price": 6,
+      "categoryId": 2,
+      "id": 8
+    },
+    {
+      "name": "Anelli di cipolla",
+      "price": 3,
+      "categoryId": 3,
+      "id": 10
+    },
+    {
+      "name": "Viennese",
+      "price": 5.5,
+      "categoryId": 1,
+      "id": 11
+    },
+    {
+      "name": "Veneto",
+      "price": 7,
+      "categoryId": 2,
+      "id": 12
+    },
+    {
+      "name": "Bufala",
+      "price": 7.5,
+      "categoryId": 1,
+      "id": 13
     }
   ]
 }

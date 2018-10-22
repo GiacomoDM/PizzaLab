@@ -1,0 +1,47 @@
+.category-card {
+  box-shadow: var(--shadows-2);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  border: 0;
+}
+
+.category-card:hover {
+  box-shadow: var(--shadows-3);
+}
+
+.card-img-top {
+  max-height: 6em;
+  object-fit: cover;
+  object-position: center 42.5%;
+}
+
+.product-card {
+  border-color: var(--color-secondary-dark);
+}
+
+.product-card:hover {
+  background-color: var(--color-secondary-light);
+  cursor: pointer;
+}
+
+.add::after {
+  content: 'add_circle_outline';
+}
+
+.add {
+  color: var(--color-secondary);
+  font-size: 200%;
+}
+
+.add:hover::after {
+  content: "add_circle";
+  cursor: pointer;
+}
+
+.modal-content {
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+.modal-header {
+  background-color: var(--color-secondary);
+}

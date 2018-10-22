@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Ordine</h5>
+    <p class="card-subtitle">Totale: <span class="float-right">{{getTotal() | number: '1.2-2'}} €</span></p>
+  </div>
+  <ul class="list-group list-group-flush">
+      <ng-container *ngIf="currentOrder.length > 0; else noElements">
+        <li *ngFor="let item of currentOrder; let i = index" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 h-100 justify-content-between">
+            <div class="align-self-center">
+              <p class="mb-0">{{item.name}}</p>
+              <span class="text-muted small">{{categories[(item.categoryId)-1].name}}</span>
+            </div>
+            <div class="d-flex flex-column justify-content-between pl-2">
+              <p class="mb-0 small text-right">{{item.price | number: '1.2-2'}} €</p>
+              <div>
+                <i class="material-icons remove pr-1" (click)="removeProductFromOrder(i)"></i>
+                <i class="material-icons add" (click)="addProductToOrder(item)"></i>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ng-container>
+      <ng-template #noElements>
+        <li class="list-group-item text-muted">Nessun prodotto aggiunto all'ordine.</li>
+      </ng-template>
+  </ul>
+  <div class="card-footer">
+    <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders" [disabled]="currentOrder.length === 0">Cancella</button>
+    <button type="button" class="btn btn-outline-confirm float-right" [disabled]="currentOrder.length === 0">Conferma</button>
+  </div>
+</div>
+
+<div class="modal fade" id="clearOrders" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cancella ordine</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Confermando l'operazione tutti i prodotti inseriti nell'ordine corrente verranno eliminati.
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-abort" data-dismiss="modal">Annulla</button>
+        <button type="button" class="btn btn-outline-confirm" (click)="clearOrders()" data-dismiss="modal">Conferma</button>
+      </div>
+    </div>
+  </div>
+</div>
