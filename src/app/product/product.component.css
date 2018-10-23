@@ -11,7 +11,14 @@
 .card-img-top {
   max-height: 6em;
   object-fit: cover;
+  object-position: center 44%;
+  filter: blur(1px);
+  transition: all 0.3s ease-in-out;
+}
+
+.category-card:hover .card-img-top {
   object-position: center 42.5%;
+  filter: blur(0);
 }
 
 .product-card {
