@@ -77,6 +77,18 @@
       "price": 5.5,
       "categoryId": 1,
       "id": 11
+    },
+    {
+      "name": "Veneto",
+      "price": 6.5,
+      "categoryId": 2,
+      "id": 12
+    },
+    {
+      "name": "Acqua naturale",
+      "price": 1,
+      "categoryId": 4,
+      "id": 13
     }
   ]
 }

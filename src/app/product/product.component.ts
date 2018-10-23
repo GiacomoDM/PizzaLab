@@ -16,6 +16,7 @@ export class ProductComponent implements OnInit {
   products: Product[] = [];
   @Input() currentOrder: Product[];
   @Output() updatedOrder = new EventEmitter<Product[]>();
+  @Output() removedProduct = new EventEmitter<number>();
   hasErrors: boolean;
   errorMsg: string;
   addForm: FormGroup;
@@ -70,11 +71,6 @@ export class ProductComponent implements OnInit {
     this.updatedOrder.emit(this.currentOrder);
   }
 
-  removeProductFromOrder(product: Product): void {
-    this.currentOrder = this.currentOrder.filter(p => p !== product);
-    this.updatedOrder.emit(this.currentOrder);
-  }
-
   usedName(name: string) {
     if (this.products.filter(p => p.name.toLowerCase() === name.toLowerCase()).length > 0) {
       return true;
@@ -112,5 +108,10 @@ export class ProductComponent implements OnInit {
         this.errorMsg = 'Impossibile rimuovere il prodotto selezionato.';
       }
     );
+  }
+
+  removeProductFromOrder(product: Product): void {
+    this.currentOrder = this.currentOrder.filter(p => p !== product);
+    this.removedProduct.emit(product.id);
   }
 }
