@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Category } from '../category';
 import { Product } from '../product';
+import { OrderService } from '../order.service';
 
 @Component({
   selector: 'app-current-order',
@@ -14,7 +15,9 @@ export class CurrentOrderComponent implements OnInit {
   @Input() categories: Category[];
   @Output() updatedOrder = new EventEmitter<Product[]>();
 
-  constructor() { }
+  constructor(
+    private orderService: OrderService
+  ) { }
 
   ngOnInit() {
   }
@@ -39,5 +42,9 @@ export class CurrentOrderComponent implements OnInit {
 
   getCategoryName(product: Product): string {
     return this.categories.find(cat => cat.id === product.categoryId).name;
+  }
+
+  confirmOrder(): void {
+    this.orderService.setOrderItems(this.currentOrder);
   }
 }
