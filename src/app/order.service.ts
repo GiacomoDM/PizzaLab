@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { Product } from './product';
+import { Order } from './order';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,22 +14,37 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class OrderService {
-  private productsUrl = 'http://localhost:3000/products';
-  private baseUrl = 'http://localhost:3000/categories';
+  private ordersUrl = 'http://localhost:3000/orders';
 
   orderItems: Product[] = [];
 
   constructor( private http: HttpClient ) { }
 
-  getOrderItems(): Product[] {
+  getCurrentOrderItems(): Product[] {
     return this.orderItems;
   }
 
-  setOrderItems(products: Product[]): void {
+  setCurrentOrderItems(products: Product[]): void {
     this.orderItems = products;
   }
 
-  getTotal(): number {
+  getCurrentOrderTotal(): number {
     return this.orderItems.reduce((partial, actual) => partial + actual.price, 0);
+  }
+
+  getOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.ordersUrl)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
+
+  addOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(this.ordersUrl, order, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
   }
 }

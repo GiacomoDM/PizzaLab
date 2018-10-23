@@ -45,6 +45,6 @@ export class CurrentOrderComponent implements OnInit {
   }
 
   confirmOrder(): void {
-    this.orderService.setOrderItems(this.currentOrder);
+    this.orderService.setCurrentOrderItems(this.currentOrder);
   }
 }

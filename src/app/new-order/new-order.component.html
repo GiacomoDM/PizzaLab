@@ -15,7 +15,7 @@
           </ul>
         </div>
       </div>
-      <form [formGroup]="orderForm" class="mb-3">
+      <form [formGroup]="orderForm" class="mb-3" id="confirmOrder" (ngSubmit)="onSubmit()">
         <div class="form-group row">
           <label for="client" class="col-sm-3 col-form-label">Destinatario</label>
           <div class="col-sm-9">
@@ -31,7 +31,8 @@
         <div class="form-group row">
           <label for="hours" class="col-sm-3 col-form-label">Orario spedizione</label>
           <div class="col-sm-9">
-            <input type="number" min="18.30" step="0.3" class="form-control" id="hours" placeholder="Orario" required formControlName="hours">
+            <input type="time" value="18:30" min="18:30" max="22:30" step="300"
+            class="form-control" id="hours" required formControlName="hours">
           </div>
         </div>
       </form>
@@ -40,7 +41,7 @@
         <span>{{getTotal() | number: '1.2-2'}} €</span>
       </div>
       <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders">Annulla</button>
-      <button role="button" class="btn btn-outline-confirm float-right">Conferma</button>
+      <button type="submit" form="confirmOrder" class="btn btn-outline-confirm float-right" [disabled]="!orderForm.valid">Conferma</button>
     </div>
   </div>
 </div>
