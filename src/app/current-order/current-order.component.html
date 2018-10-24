@@ -26,8 +26,8 @@
       </ng-template>
   </ul>
   <div class="card-footer">
-    <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders" [disabled]="currentOrder.length === 0">Cancella</button>
-    <button role="button" class="btn btn-outline-confirm float-right" (click)="confirmOrder()" [disabled]="currentOrder.length === 0" routerLink="/newOrder">Conferma</button>
+    <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#clearOrders" [disabled]="currentOrder.length === 0">ANNULLA</button>
+    <button role="button" class="btn btn-success btn-fill btn-fill-confirm float-right" (click)="confirmOrder()" [disabled]="currentOrder.length === 0" routerLink="/newOrder">CONFERMA</button>
   </div>
 </div>
 
@@ -44,8 +44,8 @@
         Confermando l'operazione tutti i prodotti inseriti nell'ordine corrente verranno eliminati.
       </div>
       <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-abort" data-dismiss="modal">Annulla</button>
-        <button type="button" class="btn btn-outline-confirm" (click)="clearOrders()" data-dismiss="modal">Conferma</button>
+        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
+        <button type="button" class="btn btn-success btn-fill btn-fill-confirm" (click)="clearOrders()" data-dismiss="modal">CONFERMA</button>
       </div>
     </div>
   </div>

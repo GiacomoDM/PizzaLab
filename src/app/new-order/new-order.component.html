@@ -41,8 +41,8 @@
         <span>Totale ordine</span>
         <span>{{getTotal() | number: '1.2-2'}} €</span>
       </div>
-      <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders">Annulla</button>
-      <button type="submit" form="confirmOrder" class="btn btn-outline-confirm float-right" [disabled]="!orderForm.valid">Conferma</button>
+      <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#clearOrders">ANNULLA</button>
+      <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid">CONFERMA</button>
     </div>
   </div>
 </div>
@@ -53,8 +53,8 @@
       <h2 class="card-title">Ordine confermato!</h2>
       <p class="card-text">L'inserimento dell'ordine è andato a buon fine. È possibile visualizzarlo nella cronologia degli ordini.</p>
       <div class="d-flex justify-content-between">
-        <a class="btn btn-outline-primary" role="button" routerLink="/orders">Cronologia ordini</a>
-        <a class="btn btn-outline-primary" role="button" routerLink="/dashboard">Torna alla Home</a>
+        <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/orders">CRONOLOGIA ORDINI</a>
+        <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/dashboard">TORNA ALLA HOME</a>
       </div>
     </div>
   </div>

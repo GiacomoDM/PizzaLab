@@ -20,7 +20,7 @@
             <td> {{order.address}} </td>
             <td> {{order.delivery | date:'dd/MM/yyyy - HH:mm'}} </td>
             <td> 
-              <button class="btn btn-outline-primary btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
+              <button class="btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
               </button>
               <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
                 <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1">
