@@ -6,3 +6,13 @@
 .card:hover {
   box-shadow: var(--shadows-3);
 }
+
+#abortOrder .modal-content{
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+#abortOrder .modal-header {
+  color: white;
+  background-color: var(--color-primary-dark);
+}
