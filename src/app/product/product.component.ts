@@ -57,6 +57,7 @@ export class ProductComponent implements OnInit {
     .subscribe(
       newProd => {
         this.products.push(newProd);
+        this.addForm.reset();
         this.hasErrors = false;
       },
       err => {
@@ -86,7 +87,6 @@ export class ProductComponent implements OnInit {
     );
     this.addProduct(product);
     this.addClose.nativeElement.click();
-    this.addForm.reset();
   }
 
   selectProduct(product: Product): void {

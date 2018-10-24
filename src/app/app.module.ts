@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductComponent } from './product/product.component';
 import { CurrentOrderComponent } from './current-order/current-order.component';
+import { NewOrderComponent } from './new-order/new-order.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CurrentOrderComponent } from './current-order/current-order.component';
     NavbarComponent,
     DashboardComponent,
     ProductComponent,
-    CurrentOrderComponent
+    CurrentOrderComponent,
+    NewOrderComponent,
   ],
   imports: [
     BrowserModule,

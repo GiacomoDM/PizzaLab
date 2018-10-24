@@ -27,7 +27,7 @@ export class ProductService {
     );
   }
 
-  addProduct (product: Product): Observable<Product> {
+  addProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(this.productsUrl, product, httpOptions)
     .pipe(
       retry(3),
@@ -35,7 +35,7 @@ export class ProductService {
     );
   }
 
-  deleteProduct (product: Product): Observable<Product> {
+  deleteProduct(product: Product): Observable<Product> {
     const url = `${this.productsUrl}/${product.id}`;
     return this.http.delete<Product>(url, httpOptions)
     .pipe(

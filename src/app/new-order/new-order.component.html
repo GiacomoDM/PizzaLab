@@ -1,0 +1,61 @@
+<div *ngIf="!orderConfirmed" class="container">
+  <div class="card w-75 mx-auto">
+    <div class="card-body">
+      <h2 class="card-title">Completamento ordine</h2>
+      <p class="card-subtitle mb-3 text-muted">Inserisci le informazioni richieste per comfermare l'ordine.</p>
+
+      <div class="row mb-3">
+        <p class="col-sm-3">Prodotti</p>
+        <div class="col-sm-9">
+          <ul class="list-group">
+            <li *ngFor="let item of orderItems" class="list-group-item d-flex justify-content-between py-1">
+              <span>{{item.name}}</span>
+              <span>{{item.price | number: '1.2-2'}} €</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <form [formGroup]="orderForm" class="mb-3" id="confirmOrder" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <label for="client" class="col-sm-3 col-form-label">Destinatario</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="client" placeholder="Destinatario" required formControlName="client">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="address" class="col-sm-3 col-form-label">Indirizzo</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="address" placeholder="Indirizzo" required formControlName="address">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="delivery" class="col-sm-3 col-form-label" >Orario consegna</label>
+          <div class="col-sm-9">
+            <select class="form-control" id="delivery" required formControlName="delivery">
+              <option *ngFor="let time of deliveryTimes">{{time}}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div class="row d-flex justify-content-between mb-4 px-3">
+        <span>Totale ordine</span>
+        <span>{{getTotal() | number: '1.2-2'}} €</span>
+      </div>
+      <button type="button" class="btn btn-outline-abort" data-toggle="modal" data-target="#clearOrders">Annulla</button>
+      <button type="submit" form="confirmOrder" class="btn btn-outline-confirm float-right" [disabled]="!orderForm.valid">Conferma</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="orderConfirmed" class="container">
+  <div class="card w-75 mx-auto">
+    <div class="card-body">
+      <h2 class="card-title">Ordine confermato!</h2>
+      <p class="card-text">L'inserimento dell'ordine è andato a buon fine. È possibile visualizzarlo nella cronologia degli ordini.</p>
+      <div class="d-flex justify-content-between">
+        <a class="btn btn-outline-primary" role="button" routerLink="/orders">Cronologia ordini</a>
+        <a class="btn btn-outline-primary" role="button" routerLink="/dashboard">Torna alla Home</a>
+      </div>
+    </div>
+  </div>
+</div>
