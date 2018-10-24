@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { Product } from '../product';
 import { OrderService } from '../order.service';
@@ -41,7 +40,6 @@ export class NewOrderComponent implements OnInit {
   orderConfirmed = false;
 
   constructor(
-    private router: Router,
     private orderService: OrderService,
     private categoryService: CategoryService
   ) {
@@ -94,7 +92,8 @@ export class NewOrderComponent implements OnInit {
       this.orderForm.value.client.trim(),
       this.orderForm.value.address.trim(),
       this.setDeliveryTime(this.orderForm.value.delivery),
-      this.setOrderItems()
+      this.setOrderItems(),
+      this.getTotal()
     );
     this.confirmOrder(order);
   }
