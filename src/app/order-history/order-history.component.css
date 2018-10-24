@@ -1,0 +1,40 @@
+.card {
+  box-shadow: var(--shadows-2);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+  box-shadow: var(--shadows-3);
+}
+
+thead th {
+  border-top: 0;
+}
+
+.listButton::after {
+  content: 'Nascondi';
+}
+
+.collapsed::after {
+  content: 'Dettagli';
+}
+
+.list-group-item:first-child {
+  border-top: 0;
+}
+
+.orderPagination /deep/ .ngx-pagination {
+  padding: 0;
+}
+
+.orderPagination /deep/ .ngx-pagination .current {
+  border-radius: 3px;
+  background-color: #76ff03;
+  color: black;
+}
+
+.orderPagination /deep/ .ngx-pagination a:hover {
+  background-color: #b0ff57 !important;
+  border-radius: 3px;
+  text-decoration: none;
+}
