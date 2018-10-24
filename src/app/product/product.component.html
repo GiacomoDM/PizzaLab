@@ -5,7 +5,7 @@
       <h5 class="card-title mb-0 align-self-center">{{category.name}}</h5>
       <div>
         <i *ngIf="!deleteMode" class="material-icons remove pr-2" (click)="deleteMode = true"></i>
-        <button *ngIf="deleteMode" type="button" class="align-top btn btn-sm btn-outline-abort mr-2" (click)="deleteMode = false" >Annulla</button>
+        <button *ngIf="deleteMode" type="button" class="align-top btn btn-sm btn-danger btn-fill btn-fill-abort mr-2" (click)="deleteMode = false" >ANNULLA</button>
         <i class="material-icons add" data-toggle="modal" attr.data-target="#addProduct{{category.id}}"></i>
       </div>
     </div>
@@ -60,8 +60,8 @@
         </form>
       </div>
       <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-abort" data-dismiss="modal">Annulla</button>
-        <button type="submit" attr.form="addProduct{{category.id}}Form" class="btn btn-outline-confirm" [disabled]="!addForm.valid || usedName(name.value)">Conferma</button>
+        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
+        <button type="submit" attr.form="addProduct{{category.id}}Form" class="btn btn-success btn-fill btn-fill-confirm" [disabled]="!addForm.valid || usedName(name.value)">CONFERMA</button>
       </div>
     </div>
   </div>

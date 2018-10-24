@@ -12,11 +12,11 @@ thead th {
 }
 
 .listButton::after {
-  content: 'Nascondi';
+  content: 'NASCONDI';
 }
 
 .collapsed::after {
-  content: 'Dettagli';
+  content: 'MOSTRA';
 }
 
 .list-group-item:first-child {
