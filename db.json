@@ -98,12 +98,17 @@
       "delivery": "2018-10-24T18:00:00.000Z",
       "orderItems": [
         {
-          "name": "Margherita",
-          "price": 5,
+          "name": "Salsiccia e friarielli",
+          "price": 7,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Salamino",
+          "price": 5.5,
           "category": "Pizze classiche"
         },
         {
-          "name": "Prosciutto e funghi",
+          "name": "Viennese",
           "price": 5.5,
           "category": "Pizze classiche"
         },
@@ -113,35 +118,18 @@
           "category": "Bibite"
         },
         {
-          "name": "Acqua naturale",
-          "price": 1,
+          "name": "Moretti 33cl",
+          "price": 2.5,
+          "category": "Bibite"
+        },
+        {
+          "name": "Coca-Cola",
+          "price": 2.5,
           "category": "Bibite"
         }
       ],
+      "total": 25.5,
       "id": 1
-    },
-    {
-      "client": "Fabio Pallaro",
-      "address": "Galleria di Spagna, 28",
-      "delivery": "2018-10-24T17:30:00.000Z",
-      "orderItems": [
-        {
-          "name": "Viennese",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Salamino",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Salsiccia e friarielli",
-          "price": 7,
-          "category": "Pizze speciali"
-        }
-      ],
-      "id": 2
     }
   ]
 }
