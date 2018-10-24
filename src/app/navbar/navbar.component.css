@@ -8,12 +8,12 @@
   font-style: italic;
 }
 
-.nav-item {
+.nav-link {
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
 }
 
-.active, .nav-item:hover {
+.active, .nav-link:hover {
   border-bottom: 2px solid var(--color-secondary);
 }
 
