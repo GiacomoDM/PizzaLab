@@ -5,16 +5,32 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col" class="w-10">#</th>
-            <th scope="col" class="text-left">Nome</th>
-            <th scope="col" class="text-left">Categoria</th>
-            <th scope="col" class="w-10">Prezzo (€)</th>
+            <th scope="col" class="w-10" (click)="reverse('id'); sortType='id'">
+              #
+              <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
+            <th scope="col" class="text-left" (click)="reverse('name'); sortType='name'">
+              Nome
+              <i *ngIf="sortType==='name' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='name' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
+            <th scope="col" class="text-left" (click)="reverse('categoryId'); sortType='categoryId'">
+              Categoria
+              <i *ngIf="sortType==='categoryId' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='categoryId' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
+            <th scope="col" (click)="reverse('price'); sortType='price'">
+              Prezzo (€)
+              <i *ngIf="sortType==='price' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='price' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
             <th scope="col" class="w-5"></th>
             <th scope="col" class="w-5"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of products | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+          <tr *ngFor="let product of products | orderBy:sortType:sortReverse:true | paginate: { itemsPerPage: 10, currentPage: currentPage }">
             <th scope="row"> {{product.id}} </th>
             <td class="text-left"> {{product.name}} </td>
             <td class="text-left"> {{getCategoryName(product)}} </td>

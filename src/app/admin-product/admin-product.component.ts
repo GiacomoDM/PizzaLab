@@ -23,6 +23,8 @@ export class AdminProductComponent implements OnInit {
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
   currentPage = 1;
+  sortType = 'id';
+  sortReverse = false;
 
   constructor(
     private productService: ProductService,
@@ -124,5 +126,13 @@ export class AdminProductComponent implements OnInit {
     );
     this.addProduct(product);
     this.addClose.nativeElement.click();
+  }
+
+  reverse(type: string): void {
+    if (this.sortType === type) {
+      this.sortReverse = !this.sortReverse;
+    } else {
+      this.sortReverse = false;
+    }
   }
 }
