@@ -22,19 +22,3 @@ thead th {
 .list-group-item:first-child {
   border-top: 0;
 }
-
-.orderPagination /deep/ .ngx-pagination {
-  padding: 0;
-}
-
-.orderPagination /deep/ .ngx-pagination .current {
-  border-radius: 3px;
-  background-color: #76ff03;
-  color: black;
-}
-
-.orderPagination /deep/ .ngx-pagination a:hover {
-  background-color: #b0ff57 !important;
-  border-radius: 3px;
-  text-decoration: none;
-}
