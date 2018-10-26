@@ -3,6 +3,7 @@ body {
   padding-top: 66px;
   background: url('/src/assets/pizza-bg.jpg');
   background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 :root {
