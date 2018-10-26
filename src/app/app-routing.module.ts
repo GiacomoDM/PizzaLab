@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewOrderComponent } from './new-order/new-order.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent},
   { path: 'newOrder', component: NewOrderComponent},
-  { path: 'orders', component: OrderHistoryComponent}
+  { path: 'orders', component: OrderHistoryComponent},
+  { path: 'admin', component: AdminComponent}
 ];
 
 @NgModule({

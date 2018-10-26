@@ -18,6 +18,14 @@ export class ProductService {
 
   constructor( private http: HttpClient ) { }
 
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.productsUrl)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
+
   getProductsByCategory(id: number): Observable<Product[]> {
     const url = `${this.baseUrl}/${id}/products`;
     return this.http.get<Product[]>(url)

@@ -1,0 +1,106 @@
+<div class="card mx-4">
+  <div class="card-body">
+    <h2 class="card-title">Gestisci i prodotti</h2>
+    <div class="table-responsive text-center">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" class="w-10">#</th>
+            <th scope="col" class="text-left">Nome</th>
+            <th scope="col" class="text-left">Categoria</th>
+            <th scope="col" class="w-10">Prezzo (€)</th>
+            <th scope="col" class="w-5"></th>
+            <th scope="col" class="w-5"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+            <th scope="row"> {{product.id}} </th>
+            <td class="text-left"> {{product.name}} </td>
+            <td class="text-left"> {{getCategoryName(product)}} </td>
+            <td> {{product.price | number: '1.2-2'}} </td>
+            <td> <i class="material-icons hiddenButton" id="editBtn" data-toggle="modal" data-target="#editProductModal" (click)="onSelect(product.id)">edit</i> </td>
+            <td> <i class="material-icons hiddenButton" id="removeBtn" data-toggle="modal" data-target="#deleteProductModal" (click)="onSelect(product.id)"> delete </i> </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls 
+        class="pagination justify-content-center" 
+        (pageChange)="currentPage = $event" 
+        autoHide="true" 
+        responsive="true"
+        previousLabel=""
+        nextLabel=""> 
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="btn btn-success btn-fill btn-fill-confirm d-flex" id="addProductBtn" data-toggle="modal" data-target="#addProductModal">
+  <i class="material-icons align-bottom position-relative">add</i>
+  <span class="align-self-end pr-1">AGGIUNGI PRODOTTO</span>
+</button>
+
+<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModal" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModal">Aggiungi un prodotto</h5>
+        <button #addClose type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addForm" id="addProductForm" (ngSubmit)="onSubmit()">
+          <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">Nome</label>
+            <div class="col-sm-9">
+              <input #name type="text" [class]="usedName(name.value) ? 'form-control is-invalid' : 'form-control'" id="name" placeholder="Nome" required formControlName="name">
+              <span *ngIf="usedName(name.value)" class="text-danger">Esiste già una prodotto con quel nome!</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="category" class="col-sm-3 col-form-label">Categoria</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="category" required formControlName="category">
+                <option *ngFor="let category of categories" value={{category.name}}>{{category.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="price" class="col-sm-3 col-form-label">Prezzo (€)</label>
+            <div class="col-sm-9">
+              <input type="number" min="0.5" step="any" class="form-control" id="price" placeholder="Prezzo" required formControlName="price">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="addForm.reset()" data-dismiss="modal">ANNULLA</button>
+        <button type="submit" form="addProductForm" class="btn btn-success btn-fill btn-fill-confirm" [disabled]="!addForm.valid || usedName(name.value)">CONFERMA</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selectedProduct" class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModal" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteProductModal">Elimina prodotto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Sei sicuro di voler rimuovere il prodotto {{selectedProduct.name}}?
+        <br>
+        L'operazione è irreversibile.
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
+        <button type="submit" form="editPizzaForm" class="btn btn-success btn-fill btn-fill-confirm" (click)="deleteProduct(selectedProduct)" data-dismiss="modal">CONFERMA</button>
+      </div>
+    </div>
+  </div>
+</div>
