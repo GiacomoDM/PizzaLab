@@ -12,7 +12,8 @@ import { ProductComponent } from './product/product.component';
 import { CurrentOrderComponent } from './current-order/current-order.component';
 import { NewOrderComponent } from './new-order/new-order.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { AdminComponent } from './admin/admin.component';
+import { AdminProductComponent } from './admin-product/admin-product.component';
+import { AdminMiscComponent } from './admin-misc/admin-misc.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AdminComponent } from './admin/admin.component';
     CurrentOrderComponent,
     NewOrderComponent,
     OrderHistoryComponent,
-    AdminComponent,
+    AdminProductComponent,
+    AdminMiscComponent,
   ],
   imports: [
     BrowserModule,

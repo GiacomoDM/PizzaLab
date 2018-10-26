@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl} from '@angular/forms';
 
-import { Product } from './../product';
-import { Category } from './../category';
-import { ProductService } from './../product.service';
-import { CategoryService } from './../category.service';
+import { Product } from '../product';
+import { Category } from '../category';
+import { ProductService } from '../product.service';
+import { CategoryService } from '../category.service';
 
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'app-admin-product',
+  templateUrl: './admin-product.component.html',
+  styleUrls: ['./admin-product.component.css']
 })
-export class AdminComponent implements OnInit {
+export class AdminProductComponent implements OnInit {
 
   categories: Category[];
   products: Product[] = [];
