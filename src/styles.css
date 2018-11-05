@@ -3,6 +3,7 @@ body {
   padding-top: 66px;
   background: url('/src/assets/pizza-bg.jpg');
   background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 :root {
@@ -99,4 +100,20 @@ body {
 .btn-fill-confirm:hover {
   background-color: rgb(36, 199, 0);
   border-color: rgb(36, 199, 0);
+}
+
+.pagination .ngx-pagination {
+  padding: 0;
+}
+
+.pagination .ngx-pagination .current {
+  border-radius: 3px;
+  background-color: #76ff03;
+  color: black;
+}
+
+.pagination .ngx-pagination a:hover {
+  background-color: #b0ff57 !important;
+  border-radius: 3px;
+  text-decoration: none;
 }

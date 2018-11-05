@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { OrderModule } from 'ngx-order-pipe';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -12,6 +15,8 @@ import { ProductComponent } from './product/product.component';
 import { CurrentOrderComponent } from './current-order/current-order.component';
 import { NewOrderComponent } from './new-order/new-order.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { AdminProductComponent } from './admin-product/admin-product.component';
+import { AdminMiscComponent } from './admin-misc/admin-misc.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +27,18 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
     CurrentOrderComponent,
     NewOrderComponent,
     OrderHistoryComponent,
+    AdminProductComponent,
+    AdminMiscComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    OrderModule,
+    FilterPipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

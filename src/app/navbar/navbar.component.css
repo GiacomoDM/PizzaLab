@@ -8,13 +8,17 @@
   font-style: italic;
 }
 
-.nav-link {
+.nav-item {
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
 }
 
-.active, .nav-link:hover {
+.active, .nav-item:hover {
   border-bottom: 2px solid var(--color-secondary);
+}
+
+.dropdown:hover {
+  cursor: pointer;
 }
 
 .dropdown-menu {

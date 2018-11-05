@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl} from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Product } from './../product';
 import { Category } from './../category';
@@ -16,23 +15,12 @@ export class ProductComponent implements OnInit {
   products: Product[] = [];
   @Input() currentOrder: Product[];
   @Output() updatedOrder = new EventEmitter<Product[]>();
-  @Output() removedProduct = new EventEmitter<number>();
   hasErrors: boolean;
   errorMsg: string;
-  addForm: FormGroup;
-  validName: boolean;
-  @ViewChild('addClose') addClose: ElementRef;
-  deleteMode = false;
-  selectedProduct: Product;
 
   constructor(
     private productService: ProductService
-  ) {
-      this.addForm = new FormGroup({
-        name: new FormControl(),
-        price: new FormControl()
-    });
-   }
+  ) { }
 
   ngOnInit() {
     this.getProducts();
@@ -52,66 +40,8 @@ export class ProductComponent implements OnInit {
     );
   }
 
-  addProduct(product: Product): void {
-    this.productService.addProduct(product)
-    .subscribe(
-      newProd => {
-        this.products.push(newProd);
-        this.addForm.reset();
-        this.hasErrors = false;
-      },
-      err => {
-        this.hasErrors = true;
-        this.errorMsg = `Impossibile aggiungere il prodotto al database.`;
-      }
-    );
-  }
-
   addProductToOrder(product: Product): void {
     this.currentOrder.push(product);
     this.updatedOrder.emit(this.currentOrder);
-  }
-
-  usedName(name: string) {
-    if (this.products.filter(p => p.name.toLowerCase() === name.toLowerCase()).length > 0) {
-      return true;
-    }
-    return false;
-  }
-
-  onSubmit(): void {
-    const product: Product = new Product(
-      this.addForm.value.name.trim(),
-      this.addForm.value.price,
-      this.category.id
-    );
-    this.addProduct(product);
-    this.addClose.nativeElement.click();
-  }
-
-  selectProduct(product: Product): void {
-    this.selectedProduct = product;
-  }
-
-  deleteProduct(product: Product): void {
-    this.productService.deleteProduct(product)
-    .subscribe(
-      () => {
-        this.selectedProduct = null;
-        this.removeProductFromOrder(product);
-        this.products = this.products.filter(p => p !== product);
-        this.deleteMode = false;
-        this.hasErrors = false;
-      },
-      err => {
-        this.hasErrors = true;
-        this.errorMsg = 'Impossibile rimuovere il prodotto selezionato.';
-      }
-    );
-  }
-
-  removeProductFromOrder(product: Product): void {
-    this.currentOrder = this.currentOrder.filter(p => p !== product);
-    this.removedProduct.emit(product.id);
   }
 }
