@@ -1,3 +1,63 @@
-<p>
-  orders-to-deliver works!
-</p>
+<div class="card mx-4">
+    <div class="card-body">
+      <h2 class="card-title">Ordini da evadere</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center" (click)="reverse('id'); sortType='id'">
+                #
+                <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+              </th>
+              <th scope="col" (click)="reverse('client'); sortType='client'">
+                Cliente
+                <i *ngIf="sortType==='client' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                <i *ngIf="sortType==='client' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+              </th>
+              <th scope="col">Indirizzo</th>
+              <th scope="col" (click)="reverse('delivery'); sortType='delivery'">
+                Consegna
+                <i *ngIf="sortType==='delivery' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                <i *ngIf="sortType==='delivery' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+              </th>
+              <th scope="col">Prodotti</th>
+              <th scope="col" class="text-center" (click)="reverse('total'); sortType='total'">
+                Totale (€)
+                <i *ngIf="sortType==='total' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                <i *ngIf="sortType==='total' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders | orderBy:sortType:sortReverse:true | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+              <th scope="row" class="text-center"> {{order.id}} </th>
+              <td > {{order.client}} </td>
+              <td> {{order.address}} </td>
+              <td> {{order.delivery | date:'dd/MM/yyyy - HH:mm'}} </td>
+              <td> 
+                <button class="btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
+                </button>
+                <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
+                  <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1">
+                    <span>{{item.name}}</span>
+                    <span class="align-self-center text-muted small">{{item.category}}</span>
+                    <span>{{item.price | number: '1.2-2'}} €</span>
+                  </li>
+                </ul>
+              </td>
+              <td class="text-center"> {{order.total | number: '1.2-2'}} </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls 
+          class="pagination justify-content-center" 
+          (pageChange)="currentPage = $event" 
+          autoHide="true" 
+          responsive="true"
+          previousLabel=""
+          nextLabel=""> 
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
