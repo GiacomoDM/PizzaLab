@@ -129,6 +129,7 @@
         }
       ],
       "total": 25.5,
+      "delivered": "true",
       "id": 1
     },
     {
@@ -158,51 +159,8 @@
         }
       ],
       "total": 20.5,
+      "delivered": "false",
       "id": 2
-    },
-    {
-      "client": "Giacomo",
-      "address": "Viale Mani Dalculo, 69",
-      "delivery": "2018-10-30T20:15:00.000Z",
-      "orderItems": [
-        {
-          "name": "Margherita",
-          "price": 5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Prosciutto e funghi",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Salamino",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Viennese",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Moretti 33cl",
-          "price": 2.5,
-          "category": "Bibite"
-        },
-        {
-          "name": "Anelli di cipolla",
-          "price": 3,
-          "category": "Fritti"
-        },
-        {
-          "name": "Salamino",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        }
-      ],
-      "total": 32.5,
-      "id": 3
     }
   ]
 }

@@ -93,7 +93,8 @@ export class NewOrderComponent implements OnInit {
       this.orderForm.value.address.trim(),
       this.setDeliveryTime(this.orderForm.value.delivery),
       this.setOrderItems(),
-      this.getTotal()
+      this.getTotal(),
+      false
     );
     this.confirmOrder(order);
   }

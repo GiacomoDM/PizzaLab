@@ -5,16 +5,32 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col" class="text-center">#</th>
-            <th scope="col" class="">Cliente</th>
+            <th scope="col" class="text-center" (click)="reverse('id'); sortType='id'">
+              #
+              <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
+            <th scope="col" (click)="reverse('client'); sortType='client'">
+              Cliente
+              <i *ngIf="sortType==='client' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='client' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
             <th scope="col">Indirizzo</th>
-            <th scope="col">Consegna</th>
+            <th scope="col" (click)="reverse('delivery'); sortType='delivery'">
+              Consegna
+              <i *ngIf="sortType==='delivery' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='delivery' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
             <th scope="col">Prodotti</th>
-            <th scope="col" class="text-center">Totale (€)</th>
+            <th scope="col" class="text-center" (click)="reverse('total'); sortType='total'">
+              Totale (€)
+              <i *ngIf="sortType==='total' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+              <i *ngIf="sortType==='total' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orders | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+          <tr *ngFor="let order of orders | orderBy:sortType:sortReverse:true | paginate: { itemsPerPage: 10, currentPage: currentPage }">
             <th scope="row" class="text-center"> {{order.id}} </th>
             <td > {{order.client}} </td>
             <td> {{order.address}} </td>
