@@ -43,18 +43,18 @@
               <i *ngIf="sortType==='price' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
             </th>
             <th scope="col" class="w-5"></th>
-            <th scope="col" class="w-5"></th>
           </tr>
         </thead>
         <tbody>
-          <td colspan="6" *ngIf="!products.length > 0">Nessun prodotto trovato</td>
+          <td colspan="5" *ngIf="!products.length > 0">Nessun prodotto trovato</td>
           <tr *ngFor="let product of products | orderBy:sortType:sortReverse:true | filterBy: searchFilter | paginate: { itemsPerPage: 10, currentPage: currentPage }">
             <th scope="row"> {{product.id}} </th>
             <td class="text-left"> {{product.name}} </td>
             <td class="text-left"> {{getCategoryName(product)}} </td>
             <td> {{product.price | number: '1.2-2'}} </td>
-            <td> <i class="material-icons hiddenButton" id="editBtn" data-toggle="modal" data-target="#editProductModal" (click)="onSelect(product.id)">edit</i> </td>
-            <td> <i class="material-icons hiddenButton" id="removeBtn" data-toggle="modal" data-target="#deleteProductModal" (click)="onSelect(product.id)"> delete </i> </td>
+            <td> 
+              <i class="material-icons hiddenButton" id="removeBtn" data-toggle="modal" data-target="#deleteProductModal" (click)="onSelect(product.id)"> delete </i> 
+            </td>
           </tr>
         </tbody>
       </table>
