@@ -17,6 +17,7 @@ import { NewOrderComponent } from './new-order/new-order.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AdminProductComponent } from './admin-product/admin-product.component';
 import { AdminMiscComponent } from './admin-misc/admin-misc.component';
+import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AdminMiscComponent } from './admin-misc/admin-misc.component';
     OrderHistoryComponent,
     AdminProductComponent,
     AdminMiscComponent,
+    OrdersToDeliverComponent,
   ],
   imports: [
     BrowserModule,
