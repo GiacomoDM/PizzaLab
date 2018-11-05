@@ -1,11 +1,28 @@
 <div class="card mx-4">
   <div class="card-body">
     <h2 class="card-title">Gestione prodotti</h2>
+    <div class="form-row">
+      <div class="form-group col-sm-7">
+        <div class="input-group">
+          <input class="form-control" placeholder="Cerca prodotti" [(ngModel)]="searchFilter.name">
+          <i *ngIf="searchFilter.name.length > 0" class="material-icons clear-icon" (click)="searchFilter.name = ''">clear</i>
+          <div class="input-group-append">
+            <div class="input-group-text"><i class="material-icons">search</i></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-5">
+        <select class="form-control" [(ngModel)]="searchFilter.categoryId">
+          <option value=''>Tutte le categorie</option>
+          <option *ngFor="let category of categories" value={{category.id}}>{{category.name}}</option>
+        </select>
+      </div>
+    </div>
     <div class="table-responsive text-center">
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col" class="w-10" (click)="reverse('id'); sortType='id'">
+            <th scope="col" class="w-7" (click)="reverse('id'); sortType='id'">
               #
               <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
               <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
@@ -20,7 +37,7 @@
               <i *ngIf="sortType==='categoryId' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
               <i *ngIf="sortType==='categoryId' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
             </th>
-            <th scope="col" (click)="reverse('price'); sortType='price'">
+            <th scope="col" class="w-12" (click)="reverse('price'); sortType='price'">
               Prezzo (€)
               <i *ngIf="sortType==='price' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
               <i *ngIf="sortType==='price' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
@@ -30,7 +47,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of products | orderBy:sortType:sortReverse:true | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+          <td colspan="6" *ngIf="!products.length > 0">Nessun prodotto trovato</td>
+          <tr *ngFor="let product of products | orderBy:sortType:sortReverse:true | filterBy: searchFilter | paginate: { itemsPerPage: 10, currentPage: currentPage }">
             <th scope="row"> {{product.id}} </th>
             <td class="text-left"> {{product.name}} </td>
             <td class="text-left"> {{getCategoryName(product)}} </td>

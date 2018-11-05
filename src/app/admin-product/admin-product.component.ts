@@ -25,6 +25,10 @@ export class AdminProductComponent implements OnInit {
   currentPage = 1;
   sortType = 'id';
   sortReverse = false;
+  searchFilter = {
+    'name': '',
+    'categoryId': ''
+  };
 
   constructor(
     private productService: ProductService,
