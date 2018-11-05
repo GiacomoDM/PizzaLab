@@ -17,6 +17,10 @@
   border-bottom: 2px solid var(--color-secondary);
 }
 
+.dropdown:hover {
+  cursor: pointer;
+}
+
 .dropdown-menu {
   top: 51px;
   background-color: var(--color-primary-light);
