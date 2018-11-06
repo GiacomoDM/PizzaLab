@@ -2,24 +2,81 @@
   <div class="col-lg-6 mb-3 px-0 pr-lg-2">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title">Prossima consegna</h2>
-        <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
-        <ul droppable (onDrop)="addOrderToDelivery($event.dragData)" [dropScope]="'delivery'" class="list-group">
-          <li *ngIf="delivery.length === 0" class="list-group-item">Nessun ordine aggiunto alla prossima consegna.</li>
-          <li *ngFor="let order of delivery" draggable [dragData]="order" [dragScope]="'order'" class="list-group-item list-group-item-action">Ordine {{order.id}}</li>
-        </ul>
+        <h2 class="card-title">Ordini da evadere</h2>
+        <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
+        <div droppable (onDrop)="removeOrderFromDelivery($event.dragData)" [dropScope]="'order'" class="list-group">
+          <p *ngIf="orders.length === 0" class="list-group-item">Nessun ordine da evadere.</p>
+          <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" draggable [dragData]="order" [dragScope]="'delivery'" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 align-items-stretch justify-content-between">
+              <span class="align-self-center font-weight-bold">{{order.id}}</span>
+              <div class="flex-grow-1 mx-3">
+                <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address}}</span>
+                <div >
+                  <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
+                  <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
+                </div>
+              </div>
+              <button class="align-self-center btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
+                PRODOTTI 
+              </button>
+            </div>
+            <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
+              <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1 products-list">
+                <span>{{item.name}}</span>
+                <span class="align-self-center text-muted small">{{item.category}}</span>
+                <span>{{item.price | number: '1.2-2'}} €</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <pagination-controls 
+          class="pagination justify-content-center mt-3" 
+          (pageChange)="currentPage = $event" 
+          autoHide="true" 
+          responsive="true"
+          previousLabel=""
+          nextLabel=""> 
+        </pagination-controls>
       </div>
     </div>
   </div>
   <div class="col-lg-6 mb-3 px-0 pl-lg-2">
-    <div class="card align-items-stretch h-100">
-      
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Prossima consegna</h2>
+        <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
+        <div droppable (onDrop)="addOrderToDelivery($event.dragData)" [dropScope]="'delivery'" class="list-group">
+          <p *ngIf="delivery.length === 0" class="list-group-item">Nessun ordine aggiunto alla prossima consegna.</p>
+          <div *ngFor="let order of delivery" draggable [dragData]="order" [dragScope]="'order'" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 align-items-stretch justify-content-between">
+              <span class="align-self-center font-weight-bold">{{order.id}}</span>
+              <div class="flex-grow-1 mx-3">
+                <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address}}</span>
+                <div >
+                  <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
+                  <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
+                </div>
+              </div>
+              <button class="align-self-center btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
+                PRODOTTI 
+              </button>
+            </div>
+            <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
+              <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1 products-list">
+                <span>{{item.name}}</span>
+                <span class="align-self-center text-muted small">{{item.category}}</span>
+                <span>{{item.price | number: '1.2-2'}} €</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="card mx-4">
-    <div class="card-body">
+    <!-- <div class="card-body">
       <h2 class="card-title">Ordini da evadere</h2>
       <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
       <div class="table-responsive table-hover">
@@ -81,5 +138,5 @@
           nextLabel=""> 
         </pagination-controls>
       </div>
-    </div>
+    </div> -->
   </div>

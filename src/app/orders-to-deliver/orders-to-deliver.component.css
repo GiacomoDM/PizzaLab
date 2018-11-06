@@ -7,19 +7,16 @@
   box-shadow: var(--shadows-3);
 }
 
-thead th {
-  border: 0;
-}
-
 .listButton::after {
-  content: 'NASCONDI';
+  content: ' \25B2';
+  font-size: 80%;
 }
 
 .collapsed::after {
-  content: 'MOSTRA';
+  content: ' \25BC';
 }
 
-tr li {
+.products-list {
   border-top: 0;
   background-color: transparent;
 }
@@ -31,7 +28,7 @@ tr li {
 }
 
 .drag-handle {
-  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: move; 
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;

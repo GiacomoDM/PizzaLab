@@ -50,7 +50,6 @@ export class OrdersToDeliverComponent implements OnInit {
   addOrderToDelivery(order: Order): void {
     this.orders = this.orders.filter(o => o !== order);
     this.delivery.push(order);
-    console.log(this.orders.length);
   }
 
   removeOrderFromDelivery(order: Order): void {
