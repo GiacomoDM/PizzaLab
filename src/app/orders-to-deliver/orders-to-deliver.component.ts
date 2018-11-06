@@ -11,6 +11,7 @@ import { Order } from '../order';
 export class OrdersToDeliverComponent implements OnInit {
 
   orders: Order[];
+  delivery: Order[] = [];
   hasErrors: boolean;
   errorMsg: string;
   currentPage = 1;
@@ -44,5 +45,10 @@ export class OrdersToDeliverComponent implements OnInit {
     } else {
       this.sortReverse = false;
     }
+  }
+
+  addOrderToDelivery(order: Order): void {
+    this.orders = this.orders.filter(o => o !== order);
+    this.delivery.push(order);
   }
 }

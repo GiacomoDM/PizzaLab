@@ -18,7 +18,3 @@ thead th {
 .collapsed::after {
   content: 'MOSTRA';
 }
-
-.list-group-item:first-child {
-  border-top: 0;
-}
