@@ -53,3 +53,13 @@
 .drag-transit {
   border: var(--primary) dashed 2px !important;
 }
+
+#abortDelivery .modal-content{
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+#abortDelivery .modal-header {
+  color: white;
+  background-color: var(--color-primary-dark);
+}

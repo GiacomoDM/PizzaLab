@@ -15,8 +15,6 @@ export class OrdersToDeliverComponent implements OnInit {
   hasErrors: boolean;
   errorMsg: string;
   currentPage = 1;
-  sortType = 'delivery';
-  sortReverse = true;
 
   constructor(
     private orderService: OrderService,
@@ -27,7 +25,8 @@ export class OrdersToDeliverComponent implements OnInit {
   }
 
   getOrders(): void {
-    this.orderService.getOrdersToDeliver().subscribe(
+    this.orderService.getOrdersToDeliver()
+    .subscribe(
       orders => {
         this.orders = orders;
         this.hasErrors = false;
@@ -39,12 +38,25 @@ export class OrdersToDeliverComponent implements OnInit {
     );
   }
 
-  reverse(type: string): void {
-    if (this.sortType === type) {
-      this.sortReverse = !this.sortReverse;
-    } else {
-      this.sortReverse = false;
-    }
+  updateOrder(order: Order): void {
+    this.orderService.updateOrder(order)
+    .subscribe(
+      () => {
+        this.delivery = this.delivery.filter(o => o !== order);
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile confermare l\'ordine';
+      }
+    );
+  }
+
+  confirmDelivery(): void {
+    this.delivery.forEach(order => {
+      order.delivered = true;
+      this.updateOrder(order);
+    });
   }
 
   addOrderToDelivery(order: Order): void {
@@ -55,5 +67,10 @@ export class OrdersToDeliverComponent implements OnInit {
   removeOrderFromDelivery(order: Order): void {
     this.delivery = this.delivery.filter(o => o !== order);
     this.orders.push(order);
+  }
+
+  abortDelivery(): void {
+    this.orders = this.orders.concat(this.delivery);
+    this.delivery.length = 0;
   }
 }

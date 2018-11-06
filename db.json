@@ -129,7 +129,7 @@
         }
       ],
       "total": 25.5,
-      "delivered": "true",
+      "delivered": true,
       "id": 1
     },
     {
@@ -159,7 +159,7 @@
         }
       ],
       "total": 20.5,
-      "delivered": "false",
+      "delivered": true,
       "id": 2
     },
     {
@@ -186,6 +186,56 @@
       "total": 11,
       "delivered": false,
       "id": 3
+    },
+    {
+      "client": "Giorgio Celic",
+      "address": "Via Loredan, 28",
+      "delivery": "2018-11-06T18:45:00.000Z",
+      "orderItems": [
+        {
+          "name": "Salsiccia e friarielli",
+          "price": 7,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Salamino",
+          "price": 5.5,
+          "category": "Pizze classiche"
+        },
+        {
+          "name": "Anelli di cipolla",
+          "price": 3,
+          "category": "Fritti"
+        },
+        {
+          "name": "Acqua naturale",
+          "price": 1,
+          "category": "Bibite"
+        },
+        {
+          "name": "Veneto",
+          "price": 6.5,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Moretti 33cl",
+          "price": 2.5,
+          "category": "Bibite"
+        },
+        {
+          "name": "Viennese",
+          "price": 5.5,
+          "category": "Pizze classiche"
+        },
+        {
+          "name": "Coca-Cola",
+          "price": 2.5,
+          "category": "Bibite"
+        }
+      ],
+      "total": 33.5,
+      "delivered": false,
+      "id": 4
     }
   ]
 }

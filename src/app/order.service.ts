@@ -65,4 +65,13 @@ export class OrderService {
       catchError(err => throwError(new Error('')))
     );
   }
+
+  updateOrder(order: Order): Observable<Order> {
+    const url = `${this.ordersUrl}/${order.id}`;
+    return this.http.put<Order>(url, order, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
 }
