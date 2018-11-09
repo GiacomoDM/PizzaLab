@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
 
 import { OrderService } from '../order.service';
 import { Order } from '../order';
@@ -15,10 +17,15 @@ export class OrdersToDeliverComponent implements OnInit {
   hasErrors: boolean;
   errorMsg: string;
   currentPage = 1;
+  // Dragula
+  subs = new Subscription();
 
   constructor(
     private orderService: OrderService,
-  ) { }
+    private dragulaService: DragulaService
+  ) {
+    this.dragulaService.createGroup('ORDERS', { revertOnSpill: true });
+  }
 
   ngOnInit() {
     this.getOrders();
@@ -59,6 +66,7 @@ export class OrdersToDeliverComponent implements OnInit {
     });
   }
 
+  /*
   addOrderToDelivery(order: Order): void {
     this.orders = this.orders.filter(o => o !== order);
     this.delivery.push(order);
@@ -68,6 +76,7 @@ export class OrdersToDeliverComponent implements OnInit {
     this.delivery = this.delivery.filter(o => o !== order);
     this.orders.push(order);
   }
+  */
 
   abortDelivery(): void {
     this.orders = this.orders.concat(this.delivery);

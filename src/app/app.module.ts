@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderModule } from 'ngx-order-pipe';
 import { FilterPipeModule } from 'ngx-filter-pipe';
-import { NgDragDropModule } from 'ng-drag-drop';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -19,6 +18,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AdminProductComponent } from './admin-product/admin-product.component';
 import { AdminMiscComponent } from './admin-misc/admin-misc.component';
 import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.component';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.
     NgxPaginationModule,
     OrderModule,
     FilterPipeModule,
-    NgDragDropModule.forRoot()
+    DragulaModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
