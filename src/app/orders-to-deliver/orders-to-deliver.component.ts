@@ -6,6 +6,7 @@ import { DragulaService } from 'ng2-dragula';
 
 import { OrderService } from '../order.service';
 import { Order } from '../order';
+import { Address } from './../Address';
 
 @Component({
   selector: 'app-orders-to-deliver',
@@ -39,6 +40,21 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService
   ) {
     this.dragulaService.createGroup('ORDERS', { revertOnSpill: true });
+    this.subs.add(this.dragulaService.drop('ORDERS')
+      .subscribe(
+        ( {source, target}) => {
+          if (source.hasAttribute('delivery') || target.hasAttribute('delivery')) {
+            if (this.delivery.length > 0) {
+              this.removeMarker();
+              this.calcRoute();
+            } else {
+                this.directionsDisplay.set('directions', null);
+                this.removeMarker();
+                this.setMarker();
+            }
+          }
+        })
+      );
   }
 
   ngOnInit() {
@@ -49,6 +65,8 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // destroy all the subscriptions at once
     this.subs.unsubscribe();
+    // destroy dragula container
+    this.dragulaService.destroy('ORDERS');
   }
 
   getOrders(): void {
@@ -134,7 +152,6 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*
   setWayPoints() {
     const waypoints = [];
     const delivery = this.delivery.slice(0, this.delivery.length - 1);
@@ -142,7 +159,10 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
       order => {
         waypoints.push(
           {
-            location:  order.address.getLatLng(),
+            location:  {
+              lat: order.address.lat,
+              lng: order.address.lng
+            },
             stopover: true
           }
         );
@@ -150,5 +170,41 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     );
     return waypoints;
   }
-  */
+
+  calcRoute() {
+    const DirectionsRequest = {
+      origin: this.baseAddress,
+      destination: this.delivery[this.delivery.length - 1].address,
+      provideRouteAlternatives: false,
+      travelMode: google.maps.TravelMode.DRIVING,
+      drivingOptions: {
+        departureTime: new Date(),
+        trafficModel: google.maps.TrafficModel.PESSIMISTIC
+      },
+      unitSystem: google.maps.UnitSystem.METRIC
+    };
+
+    if (this.delivery.length > 1) {
+      DirectionsRequest['waypoints'] = this.setWayPoints();
+      DirectionsRequest['optimizeWaypoints'] = true;
+    }
+
+    this.directionsService.route(DirectionsRequest, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        this.directionsDisplay.setDirections(result);
+        const route = result.routes[0];
+        this.totalDistance = 0;
+        this.totalTime = 0;
+        route.legs.forEach(
+          leg => {
+            this.totalDistance = this.totalDistance + leg.distance.value;
+            console.log(this.totalDistance);
+            this.totalTime = this.totalTime + leg.duration.value;
+            console.log(this.totalTime);
+          }
+        );
+      }
+
+    });
+  }
 }
