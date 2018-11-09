@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+/// <reference types="@types/googlemaps" />
+
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
@@ -10,7 +12,7 @@ import { Order } from '../order';
   templateUrl: './orders-to-deliver.component.html',
   styleUrls: ['./orders-to-deliver.component.css']
 })
-export class OrdersToDeliverComponent implements OnInit {
+export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   orders: Order[] = [];
   delivery: Order[] = [];
@@ -19,6 +21,18 @@ export class OrdersToDeliverComponent implements OnInit {
   currentPage = 1;
   // Dragula
   subs = new Subscription();
+  // Maps
+  @ViewChild('gmap') gmapElement: ElementRef;
+  map: google.maps.Map;
+  directionsService: google.maps.DirectionsService;
+  directionsDisplay: google.maps.DirectionsRenderer;
+  marker: google.maps.Marker;
+  baseAddress = {
+    lat: 45.409688,
+    lng: 11.891188
+  };
+  totalDistance: number;
+  totalTime: number;
 
   constructor(
     private orderService: OrderService,
@@ -29,6 +43,12 @@ export class OrdersToDeliverComponent implements OnInit {
 
   ngOnInit() {
     this.getOrders();
+    this.initMap();
+  }
+
+  ngOnDestroy() {
+    // destroy all the subscriptions at once
+    this.subs.unsubscribe();
   }
 
   getOrders(): void {
@@ -82,4 +102,53 @@ export class OrdersToDeliverComponent implements OnInit {
     this.orders = this.orders.concat(this.delivery);
     this.delivery.length = 0;
   }
+
+  // MAPS
+
+  initMap() {
+    const mapProp = {
+      center: this.baseAddress,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+    this.setMarker();
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsDisplay = new google.maps.DirectionsRenderer();
+    this.directionsDisplay.setMap(this.map);
+  }
+
+  setMarker() {
+    this.marker = new google.maps.Marker({
+      position: this.baseAddress,
+      map: this.map,
+      title: 'Pizzeria',
+      // label: 'Pizzeria',
+      animation: google.maps.Animation.DROP
+    });
+  }
+
+  removeMarker() {
+    if (this.marker) {
+      this.marker.setMap(null);
+    }
+  }
+
+  /*
+  setWayPoints() {
+    const waypoints = [];
+    const delivery = this.delivery.slice(0, this.delivery.length - 1);
+    delivery.forEach(
+      order => {
+        waypoints.push(
+          {
+            location:  order.address.getLatLng(),
+            stopover: true
+          }
+        );
+      }
+    );
+    return waypoints;
+  }
+  */
 }
