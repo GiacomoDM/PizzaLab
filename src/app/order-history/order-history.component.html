@@ -33,7 +33,7 @@
           <tr *ngFor="let order of orders | orderBy:sortType:sortReverse:true | paginate: { itemsPerPage: 10, currentPage: currentPage }">
             <th scope="row" class="text-center"> {{order.id}} </th>
             <td > {{order.client}} </td>
-            <td> {{order.address}} </td>
+            <td> {{order.address.name}} </td>
             <td> {{order.delivery | date:'dd/MM/yyyy - HH:mm'}} </td>
             <td> 
               <button class="btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
