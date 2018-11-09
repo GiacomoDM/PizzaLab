@@ -4,14 +4,13 @@
       <div class="card-body">
         <h2 class="card-title">Ordini da evadere</h2>
         <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
-        <div class="list-group">
-          <p *ngIf="orders.length === 0" class="list-group-item">Nessun ordine da evadere.</p>
+        <div class="list-group dragula-container" [class.dragula-container]="orders.length === 0" dragula="ORDERS" [(dragulaModel)]="orders">
           <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 align-items-stretch justify-content-between">
               <span class="align-self-center font-weight-bold">{{order.id}}</span>
               <div class="flex-grow-1 mx-3">
                 <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address}}</span>
-                <div >
+                <div>
                   <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
                   <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
                 </div>
@@ -45,14 +44,13 @@
       <div class="card-body">
         <h2 class="card-title">Prossima consegna</h2>
         <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
-        <div class="list-group">
-          <p *ngIf="delivery.length === 0" class="list-group-item">Nessun ordine aggiunto alla prossima consegna.</p>
+        <div class="list-group" [class.dragula-container]="delivery.length === 0" dragula="ORDERS" [(dragulaModel)]="delivery" delivery>
           <div *ngFor="let order of delivery" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 align-items-stretch justify-content-between">
               <span class="align-self-center font-weight-bold">{{order.id}}</span>
               <div class="flex-grow-1 mx-3">
                 <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address}}</span>
-                <div >
+                <div>
                   <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
                   <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
                 </div>

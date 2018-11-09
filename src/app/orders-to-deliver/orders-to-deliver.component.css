@@ -31,15 +31,23 @@
   background-color: var(--color-primary-dark);
 }
 
+/* DRAGULA  */
+
+.dragula-container {
+  min-height: 50px;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.25rem;
+}
+
 /* in-flight clone */
 .gu-mirror {
+  cursor: grabbing;
   position: fixed !important;
   margin: 0 !important;
   z-index: 9999 !important;
   opacity: 0.8;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
   filter: alpha(opacity=80);
-  pointer-events: none;
   border: 2px dashed var(--color-secondary);
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
@@ -62,8 +70,7 @@
   opacity: 0.5;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   filter: alpha(opacity=50);
-  background-color: var(--color-primary-light);
-  color: black !important;
-  border: 2px dashed black;
+  background-color: var(--color-secondary-light);
+  border: 2px dashed var(--color-secondary-dark);
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
