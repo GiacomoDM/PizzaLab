@@ -7,9 +7,13 @@
   box-shadow: var(--shadows-3);
 }
 
-#abortOrder .modal-content{
+.modal-content{
   border: 0;
   box-shadow: var(--shadows-2);
+}
+
+#orderConfirmed .modal-header {
+  background-color: var(--color-secondary);
 }
 
 #abortOrder .modal-header {

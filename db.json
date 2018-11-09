@@ -94,7 +94,11 @@
   "orders": [
     {
       "client": "Giacomo Del Moro",
-      "address": "Via Loredan, 28",
+      "address": {
+        "name": "Via Leonardo Loredan, 28, 35131 Padova PD",
+        "lat": 45.40973160000001,
+        "lng": 11.891224599999987
+      },
       "delivery": "2018-10-24T18:00:00.000Z",
       "orderItems": [
         {
@@ -134,7 +138,11 @@
     },
     {
       "client": "Fabio Pallaro",
-      "address": "Galleria di Spagna, 28",
+      "address": {
+        "name": "Galleria Spagna, 28, 35129 Padova PD",
+        "lat": 45.38861000000001,
+        "lng": 11.92850999999996
+      },
       "delivery": "2018-10-24T17:30:00.000Z",
       "orderItems": [
         {
@@ -163,19 +171,96 @@
       "id": 2
     },
     {
-      "client": "Mario Rossi",
-      "address": "Via Roma, 15",
-      "delivery": "2018-11-06T19:30:00.000Z",
+      "client": "Giacomo Del Moro",
+      "address": {
+        "name": "Via Leonardo Loredan, 28, 35131 Padova PD",
+        "lat": 45.40973160000001,
+        "lng": 11.891224599999987
+      },
+      "delivery": "2018-11-09T19:00:00.000Z",
       "orderItems": [
         {
-          "name": "Salamino",
+          "name": "Salsiccia e friarielli",
+          "price": 7,
+          "category": "Pizze speciali"
+        }
+      ],
+      "total": 7,
+      "delivered": false,
+      "id": 5
+    },
+    {
+      "client": "Mario Rossi",
+      "address": {
+        "name": "Via Gattamelata, 23, 35128 Padova PD",
+        "lat": 45.40194,
+        "lng": 11.908019999999965
+      },
+      "delivery": "2018-11-09T19:45:00.000Z",
+      "orderItems": [
+        {
+          "name": "Margherita",
+          "price": 5,
+          "category": "Pizze classiche"
+        },
+        {
+          "name": "Prosciutto e funghi",
           "price": 5.5,
           "category": "Pizze classiche"
         },
         {
-          "name": "Patatine fritte",
-          "price": 3,
-          "category": "Fritti"
+          "name": "Viennese",
+          "price": 5.5,
+          "category": "Pizze classiche"
+        },
+        {
+          "name": "Salsiccia e friarielli",
+          "price": 7,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Bomba",
+          "price": 6,
+          "category": "Pizze speciali"
+        }
+      ],
+      "total": 29,
+      "delivered": false,
+      "id": 6
+    },
+    {
+      "client": "Fabio Pallaro",
+      "address": {
+        "name": "Galleria Spagna, 28, 35129 Padova PD",
+        "lat": 45.38861000000001,
+        "lng": 11.92850999999996
+      },
+      "delivery": "2018-11-09T17:30:00.000Z",
+      "orderItems": [
+        {
+          "name": "Salsiccia e friarielli",
+          "price": 7,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Bomba",
+          "price": 6,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Veneto",
+          "price": 6.5,
+          "category": "Pizze speciali"
+        },
+        {
+          "name": "Moretti 33cl",
+          "price": 2.5,
+          "category": "Bibite"
+        },
+        {
+          "name": "Moretti 33cl",
+          "price": 2.5,
+          "category": "Bibite"
         },
         {
           "name": "Moretti 33cl",
@@ -183,14 +268,18 @@
           "category": "Bibite"
         }
       ],
-      "total": 11,
+      "total": 27,
       "delivered": false,
-      "id": 3
+      "id": 7
     },
     {
-      "client": "Giorgio Celic",
-      "address": "Via Loredan, 28",
-      "delivery": "2018-11-06T18:45:00.000Z",
+      "client": "Jhon Doe",
+      "address": {
+        "name": "Via Venezia, 15, 35131 Padova PD",
+        "lat": 45.4114914,
+        "lng": 11.895306699999992
+      },
+      "delivery": "2018-11-09T20:45:00.000Z",
       "orderItems": [
         {
           "name": "Salsiccia e friarielli",
@@ -213,29 +302,14 @@
           "category": "Bibite"
         },
         {
-          "name": "Veneto",
-          "price": 6.5,
-          "category": "Pizze speciali"
-        },
-        {
-          "name": "Moretti 33cl",
-          "price": 2.5,
-          "category": "Bibite"
-        },
-        {
-          "name": "Viennese",
-          "price": 5.5,
-          "category": "Pizze classiche"
-        },
-        {
-          "name": "Coca-Cola",
-          "price": 2.5,
+          "name": "Acqua naturale",
+          "price": 1,
           "category": "Bibite"
         }
       ],
-      "total": 33.5,
+      "total": 17.5,
       "delivered": false,
-      "id": 4
+      "id": 8
     }
   ]
 }
