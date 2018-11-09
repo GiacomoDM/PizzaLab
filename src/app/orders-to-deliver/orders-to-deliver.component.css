@@ -21,39 +21,6 @@
   background-color: transparent;
 }
 
-/* Draggable*/
-
-.drag-border {
-  border: var(--color-primary) dashed 2px !important;
-}
-
-.drag-handle {
-  cursor: move; 
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-
-.drag-handle:active { 
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
-}
-
-/* Droppable */
-
-.drag-hint-border {
-  border: var(--color-secondary-dark) dashed 2px !important;
-}
-
-.drag-over-border {
-  border: var(--color-secondary) dashed 2px !important;
-}
-
-.drag-transit {
-  border: var(--primary) dashed 2px !important;
-}
-
 #abortDelivery .modal-content{
   border: 0;
   box-shadow: var(--shadows-2);

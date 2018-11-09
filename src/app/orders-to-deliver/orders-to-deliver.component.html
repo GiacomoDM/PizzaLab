@@ -4,9 +4,9 @@
       <div class="card-body">
         <h2 class="card-title">Ordini da evadere</h2>
         <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
-        <div droppable (onDrop)="removeOrderFromDelivery($event.dragData)" [dropScope]="'order'" class="list-group">
+        <div class="list-group">
           <p *ngIf="orders.length === 0" class="list-group-item">Nessun ordine da evadere.</p>
-          <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" draggable [dragData]="order" [dragScope]="'delivery'" class="list-group-item list-group-item-action">
+          <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 align-items-stretch justify-content-between">
               <span class="align-self-center font-weight-bold">{{order.id}}</span>
               <div class="flex-grow-1 mx-3">
@@ -45,9 +45,9 @@
       <div class="card-body">
         <h2 class="card-title">Prossima consegna</h2>
         <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
-        <div droppable (onDrop)="addOrderToDelivery($event.dragData)" [dropScope]="'delivery'" class="list-group">
+        <div class="list-group">
           <p *ngIf="delivery.length === 0" class="list-group-item">Nessun ordine aggiunto alla prossima consegna.</p>
-          <div *ngFor="let order of delivery" draggable [dragData]="order" [dragScope]="'order'" class="list-group-item list-group-item-action">
+          <div *ngFor="let order of delivery" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 align-items-stretch justify-content-between">
               <span class="align-self-center font-weight-bold">{{order.id}}</span>
               <div class="flex-grow-1 mx-3">

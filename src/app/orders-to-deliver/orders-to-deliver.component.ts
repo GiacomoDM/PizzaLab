@@ -59,6 +59,7 @@ export class OrdersToDeliverComponent implements OnInit {
     });
   }
 
+  /*
   addOrderToDelivery(order: Order): void {
     this.orders = this.orders.filter(o => o !== order);
     this.delivery.push(order);
@@ -68,6 +69,7 @@ export class OrdersToDeliverComponent implements OnInit {
     this.delivery = this.delivery.filter(o => o !== order);
     this.orders.push(order);
   }
+  */
 
   abortDelivery(): void {
     this.orders = this.orders.concat(this.delivery);

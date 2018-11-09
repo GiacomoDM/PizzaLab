@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderModule } from 'ngx-order-pipe';
 import { FilterPipeModule } from 'ngx-filter-pipe';
-import { NgDragDropModule } from 'ng-drag-drop';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -41,8 +40,7 @@ import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.
     ReactiveFormsModule,
     NgxPaginationModule,
     OrderModule,
-    FilterPipeModule,
-    NgDragDropModule.forRoot()
+    FilterPipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
