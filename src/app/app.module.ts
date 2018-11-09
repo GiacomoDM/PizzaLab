@@ -18,6 +18,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { AdminProductComponent } from './admin-product/admin-product.component';
 import { AdminMiscComponent } from './admin-misc/admin-misc.component';
 import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.component';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.
     ReactiveFormsModule,
     NgxPaginationModule,
     OrderModule,
-    FilterPipeModule
+    FilterPipeModule,
+    DragulaModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
