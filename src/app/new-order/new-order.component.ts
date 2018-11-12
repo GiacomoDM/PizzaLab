@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+/// <reference types="@types/googlemaps" />
+
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl} from '@angular/forms';
 
 import { Product } from '../product';
@@ -7,6 +9,7 @@ import { Order } from '../order';
 import { OrderItem } from './../orderItem';
 import { Category } from './../category';
 import { CategoryService } from './../category.service';
+import { Address } from '../address';
 
 @Component({
   selector: 'app-new-order',
@@ -15,8 +18,11 @@ import { CategoryService } from './../category.service';
 })
 export class NewOrderComponent implements OnInit {
 
+  orderConfirmed = false;
   orderItems: Product[];
   categories: Category[];
+  @ViewChild('searchAddress') inputElement: ElementRef;
+  autocomplete: google.maps.places.Autocomplete;
   orderForm: FormGroup;
   hasErrors: boolean;
   errorMsg: string;
@@ -37,7 +43,6 @@ export class NewOrderComponent implements OnInit {
     '21:45',
     '22:00'
   ];
-  orderConfirmed = false;
 
   constructor(
     private orderService: OrderService,
@@ -45,7 +50,7 @@ export class NewOrderComponent implements OnInit {
   ) {
       this.orderForm = new FormGroup({
         client: new FormControl(),
-        address: new FormControl(),
+        // address: new FormControl(),
         delivery: new FormControl()
     });
   }
@@ -53,6 +58,7 @@ export class NewOrderComponent implements OnInit {
   ngOnInit() {
     this.orderItems = this.orderService.getCurrentOrderItems();
     this.getCategories();
+    this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
   }
 
   getCategories(): void {
@@ -88,9 +94,14 @@ export class NewOrderComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const place = this.autocomplete.getPlace();
     const order: Order = new Order(
       this.orderForm.value.client.trim(),
-      this.orderForm.value.address.trim(),
+      new Address(
+        place.formatted_address,
+        place.geometry.location.lat(),
+        place.geometry.location.lng()
+      ),
       this.setDeliveryTime(this.orderForm.value.delivery),
       this.setOrderItems(),
       this.getTotal(),
