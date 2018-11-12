@@ -6,7 +6,6 @@ import { DragulaService } from 'ng2-dragula';
 
 import { OrderService } from '../order.service';
 import { Order } from '../order';
-import { Address } from '../address';
 
 @Component({
   selector: 'app-orders-to-deliver',
@@ -17,6 +16,7 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   orders: Order[] = [];
   delivery: Order[] = [];
+  confirmable = false;
   hasErrors: boolean;
   errorMsg: string;
   currentPage = 1;
@@ -35,6 +35,7 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   totalDistance: number;
   totalTime: number;
   @ViewChild('routeInfo') routeInfo: ElementRef;
+  routeUrl: string;
 
   constructor(
     private orderService: OrderService,
@@ -44,17 +45,17 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     this.subs.add(this.dragulaService.drop('ORDERS')
       .subscribe(
         ( {source, target}) => {
-          if (source.hasAttribute('delivery') || target.hasAttribute('delivery')) {
+          if ((source.hasAttribute('delivery') && target.hasAttribute('orders'))
+            || (source.hasAttribute('orders') && target.hasAttribute('delivery'))) {
             if (this.delivery.length > 0) {
+              this.confirmable = true;
               this.removeMarker();
               this.map.controls[google.maps.ControlPosition.LEFT_CENTER].clear();
               this.calcRoute();
             } else {
-                this.directionsDisplay.set('directions', null);
-                this.removeMarker();
-                this.setMarker();
-                this.totalDistance = null;
-                this.totalTime = null;
+              this.confirmable = false;
+              this.clearDelivery();
+              this.routeUrl = null;
             }
           }
         })
@@ -106,6 +107,16 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
       order.delivered = true;
       this.updateOrder(order);
     });
+    this.clearDelivery();
+    this.delivery.splice(0, this.delivery.length);
+  }
+
+  clearDelivery(): void {
+    this.directionsDisplay.set('directions', null);
+    this.removeMarker();
+    this.setMarker();
+    this.totalDistance = null;
+    this.totalTime = null;
   }
 
   /*
@@ -121,8 +132,10 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   */
 
   abortDelivery(): void {
+    this.clearDelivery();
     this.orders = this.orders.concat(this.delivery);
-    this.delivery.length = 0;
+    this.delivery = [];
+    this.confirmable = false;
   }
 
   // MAPS
@@ -155,10 +168,10 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     }
   }
 
-  setWayPoints() {
+  getWayPoints() {
     const waypoints = [];
-    const delivery = this.delivery.slice(0, this.delivery.length - 1);
-    delivery.forEach(
+    // const delivery = this.delivery.slice(0, this.delivery.length - 1);
+    this.delivery.forEach(
       order => {
         waypoints.push(
           {
@@ -177,7 +190,9 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   calcRoute() {
     const DirectionsRequest = {
       origin: this.baseAddress,
-      destination: this.delivery[this.delivery.length - 1].address,
+      destination: this.baseAddress,
+      waypoints: this.getWayPoints(),
+      optimizeWaypoints: true,
       provideRouteAlternatives: false,
       travelMode: google.maps.TravelMode.DRIVING,
       drivingOptions: {
@@ -187,10 +202,12 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
       unitSystem: google.maps.UnitSystem.METRIC
     };
 
+    /* console.log(DirectionsRequest.destination);
+
     if (this.delivery.length > 1) {
-      DirectionsRequest['waypoints'] = this.setWayPoints();
+      DirectionsRequest['waypoints'] = this.getWayPoints();
       DirectionsRequest['optimizeWaypoints'] = true;
-    }
+    } */
 
     this.directionsService.route(DirectionsRequest, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
@@ -205,6 +222,11 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
           }
         );
         this.map.controls[google.maps.ControlPosition.LEFT_CENTER].push(this.routeInfo.nativeElement);
+        if (this.delivery && this.delivery.length < 10) {
+          this.setRouteLink(route.waypoint_order);
+        } else {
+          this.routeUrl = null;
+        }
       }
 
     });
@@ -219,5 +241,25 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   getDuration(): number {
     return Math.floor(this.totalTime / 60);
+  }
+
+  setBaseUrl(): string {
+    return 'https://www.google.com/maps/dir/?api=1&'
+      + 'origin=' + this.baseAddress.lat + ',' + this.baseAddress.lng
+      + '&destination=' + this.baseAddress.lat + ',' + this.baseAddress.lng
+      + '&travelmode=driving&waypoints=';
+  }
+
+  setRouteLink(sortOrder: number[]): void {
+    this.routeUrl = this.setBaseUrl();
+    sortOrder.forEach(
+      position => {
+        this.routeUrl = this.routeUrl +
+        + this.delivery[position].address.lat
+        + ',' + this.delivery[position].address.lng
+        + '|';
+      }
+    );
+    this.routeUrl = this.routeUrl.substring(0, this.routeUrl.length - 1);
   }
 }

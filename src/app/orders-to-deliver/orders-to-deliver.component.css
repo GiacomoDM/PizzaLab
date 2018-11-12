@@ -21,10 +21,14 @@
   background-color: transparent;
 }
 
-#abortDelivery .modal-content{
+.modal-content{
   border: 0;
   box-shadow: var(--shadows-2);
 }
+
+#confirmDelivery .modal-header {
+  background-color: var(--color-secondary);
+} 
 
 #abortDelivery .modal-header {
   color: white;
