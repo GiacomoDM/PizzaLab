@@ -41,7 +41,7 @@
               <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
                 <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1">
                   <span>{{item.name}}</span>
-                  <span class="align-self-center text-muted small">{{item.category}}</span>
+                  <span class="align-self-center text-muted small px-2">{{item.category}}</span>
                   <span>{{item.price | number: '1.2-2'}} €</span>
                 </li>
               </ul>
