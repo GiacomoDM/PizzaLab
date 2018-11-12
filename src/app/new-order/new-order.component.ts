@@ -9,7 +9,7 @@ import { Order } from '../order';
 import { OrderItem } from './../orderItem';
 import { Category } from './../category';
 import { CategoryService } from './../category.service';
-import { Address } from '../Address';
+import { Address } from '../address';
 
 @Component({
   selector: 'app-new-order',
