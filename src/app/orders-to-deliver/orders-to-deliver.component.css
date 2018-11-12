@@ -1,0 +1,84 @@
+.card-shadows {
+  box-shadow: var(--shadows-2);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card-shadows:hover {
+  box-shadow: var(--shadows-3);
+}
+
+.listButton::after {
+  content: ' \25B2';
+  font-size: 80%;
+}
+
+.collapsed::after {
+  content: ' \25BC';
+}
+
+.products-list {
+  border-top: 0;
+  background-color: transparent;
+}
+
+.modal-content{
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+#confirmDelivery .modal-header {
+  background-color: var(--color-secondary);
+} 
+
+#abortDelivery .modal-header {
+  color: white;
+  background-color: var(--color-primary-dark);
+}
+
+#durationInfo .card {
+  box-shadow: var(--shadows-0);
+}
+
+/* DRAGULA  */
+
+.dragula-container {
+  min-height: 50px;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.25rem;
+}
+
+/* in-flight clone */
+.gu-mirror {
+  cursor: grabbing;
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  border: 2px dashed var(--color-secondary);
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  background-color: var(--color-secondary-light);
+  border: 2px dashed var(--color-secondary-dark);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}

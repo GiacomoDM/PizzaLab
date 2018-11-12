@@ -117,3 +117,7 @@ body {
   border-radius: 3px;
   text-decoration: none;
 }
+
+.pagination ul {
+  margin: 0;
+}

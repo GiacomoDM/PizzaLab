@@ -40,8 +40,35 @@ export class OrderService {
     );
   }
 
+  getDeliveredOrders(): Observable<Order[]> {
+    const url = `${this.ordersUrl}?delivered=true`;
+    return this.http.get<Order[]>(url)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
+
+  getOrdersToDeliver(): Observable<Order[]> {
+    const url = `${this.ordersUrl}?delivered=false`;
+    return this.http.get<Order[]>(url)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
+
   addOrder(order: Order): Observable<Order> {
     return this.http.post<Order>(this.ordersUrl, order, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
+
+  updateOrder(order: Order): Observable<Order> {
+    const url = `${this.ordersUrl}/${order.id}`;
+    return this.http.put<Order>(url, order, httpOptions)
     .pipe(
       retry(3),
       catchError(err => throwError(new Error('')))
