@@ -15,6 +15,8 @@ export class OrderHistoryComponent implements OnInit {
   hasErrors: boolean;
   errorMsg: string;
   currentPage = 1;
+  sortType = 'delivery';
+  sortReverse = true;
 
   constructor(
     private orderService: OrderService,
@@ -25,7 +27,7 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   getOrders(): void {
-    this.orderService.getOrders().subscribe(
+    this.orderService.getDeliveredOrders().subscribe(
       orders => {
         this.orders = orders;
         this.hasErrors = false;
@@ -35,5 +37,13 @@ export class OrderHistoryComponent implements OnInit {
         this.errorMsg = 'Impossibile recuperare i dati dal server.';
       }
     );
+  }
+
+  reverse(type: string): void {
+    if (this.sortType === type) {
+      this.sortReverse = !this.sortReverse;
+    } else {
+      this.sortReverse = false;
+    }
   }
 }
