@@ -1,9 +1,9 @@
-.card {
+.card-shadows {
   box-shadow: var(--shadows-2);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-.card:hover {
+.card-shadows:hover {
   box-shadow: var(--shadows-3);
 }
 
@@ -29,6 +29,10 @@
 #abortDelivery .modal-header {
   color: white;
   background-color: var(--color-primary-dark);
+}
+
+#durationInfo .card {
+  box-shadow: var(--shadows-0);
 }
 
 /* DRAGULA  */

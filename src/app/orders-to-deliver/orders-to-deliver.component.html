@@ -1,6 +1,6 @@
 <div class="row mx-4">
   <div class="col-lg-6 mb-3 px-0 pr-lg-2">
-    <div class="card">
+    <div class="card card-shadows">
       <div class="card-body">
         <h2 class="card-title">Ordini da evadere</h2>
         <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="col-lg-6 mb-3 px-0 pl-lg-2">
-    <div class="card">
+    <div class="card card-shadows">
       <div class="card-body">
         <h2 class="card-title">Prossima consegna</h2>
         <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
@@ -77,12 +77,33 @@
   </div>
 </div>
 
-<div class="card mx-4">
+<div class="card card-shadows mx-4">
   <div class="card-body">
     <h2 class="card-title">Percorso consegne</h2>
-    <div class="rounded" #gmap style="width:100%;height:600px"></div>
+    <!-- <div class="row">
+      <div class="col-2" *ngIf="getDuration() && getDistance()">
+        <p class="card-text">Durata: {{getDuration()}} min</p>
+        <p class="card-text">Distanza: {{getDistance() | number: '1.1-2'}} km</p>
+      </div> -->
+      <div class="col rounded" #gmap style="width:100%;height:550px"></div>
+    <!-- </div> -->
   </div>
 </div>
+
+<div #routeInfo id="durationInfo">
+  <div *ngIf="getDuration() && getDistance()" class="card ml-2">
+    <div class="card-body p-2">
+      <h6 class="card-text mb-2">Durata: {{getDuration()}} min</h6>
+      <h6 class="card-text">Distanza: {{getDistance() | number: '1.1-2'}} km</h6>
+    </div>
+  </div>
+</div>
+<!-- <div id="distanceInfo">
+  <div *ngIf="getDistance()" class="card">
+    <div class="card-body p-2">
+    </div>
+  </div>
+</div> -->
 
 <div class="modal fade" id="abortDelivery" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

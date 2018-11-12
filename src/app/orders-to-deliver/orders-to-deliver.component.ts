@@ -6,7 +6,7 @@ import { DragulaService } from 'ng2-dragula';
 
 import { OrderService } from '../order.service';
 import { Order } from '../order';
-import { Address } from './../Address';
+import { Address } from '../address';
 
 @Component({
   selector: 'app-orders-to-deliver',
@@ -34,6 +34,7 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   };
   totalDistance: number;
   totalTime: number;
+  @ViewChild('routeInfo') routeInfo: ElementRef;
 
   constructor(
     private orderService: OrderService,
@@ -46,11 +47,14 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
           if (source.hasAttribute('delivery') || target.hasAttribute('delivery')) {
             if (this.delivery.length > 0) {
               this.removeMarker();
+              this.map.controls[google.maps.ControlPosition.LEFT_CENTER].clear();
               this.calcRoute();
             } else {
                 this.directionsDisplay.set('directions', null);
                 this.removeMarker();
                 this.setMarker();
+                this.totalDistance = null;
+                this.totalTime = null;
             }
           }
         })
@@ -141,7 +145,6 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
       position: this.baseAddress,
       map: this.map,
       title: 'Pizzeria',
-      // label: 'Pizzeria',
       animation: google.maps.Animation.DROP
     });
   }
@@ -198,13 +201,23 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
         route.legs.forEach(
           leg => {
             this.totalDistance = this.totalDistance + leg.distance.value;
-            console.log(this.totalDistance);
             this.totalTime = this.totalTime + leg.duration.value;
-            console.log(this.totalTime);
           }
         );
+        this.map.controls[google.maps.ControlPosition.LEFT_CENTER].push(this.routeInfo.nativeElement);
       }
 
     });
+  }
+
+  getDistance(): number {
+    if (this.totalDistance > 1000) {
+      return (this.totalDistance / 1000);
+    }
+    return this.totalDistance;
+  }
+
+  getDuration(): number {
+    return Math.floor(this.totalTime / 60);
   }
 }
