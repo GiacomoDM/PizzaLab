@@ -119,18 +119,6 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     this.totalTime = null;
   }
 
-  /*
-  addOrderToDelivery(order: Order): void {
-    this.orders = this.orders.filter(o => o !== order);
-    this.delivery.push(order);
-  }
-
-  removeOrderFromDelivery(order: Order): void {
-    this.delivery = this.delivery.filter(o => o !== order);
-    this.orders.push(order);
-  }
-  */
-
   abortDelivery(): void {
     this.clearDelivery();
     this.orders = this.orders.concat(this.delivery);
@@ -170,7 +158,6 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   getWayPoints() {
     const waypoints = [];
-    // const delivery = this.delivery.slice(0, this.delivery.length - 1);
     this.delivery.forEach(
       order => {
         waypoints.push(
@@ -201,13 +188,6 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
       },
       unitSystem: google.maps.UnitSystem.METRIC
     };
-
-    /* console.log(DirectionsRequest.destination);
-
-    if (this.delivery.length > 1) {
-      DirectionsRequest['waypoints'] = this.getWayPoints();
-      DirectionsRequest['optimizeWaypoints'] = true;
-    } */
 
     this.directionsService.route(DirectionsRequest, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
