@@ -25,4 +25,21 @@ export class CategoryService {
       catchError(err => throwError(new Error('')))
     );
   }
+
+  addCategory(category: Category): Observable<Category> {
+    return this.http.post<Category>(this.categoriesUrl, category, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
+
+  deleteCategory(category: Category): Observable<Category> {
+    const url = `${this.categoriesUrl}/${category.id}`;
+    return this.http.delete<Category>(url, httpOptions)
+    .pipe(
+      retry(3),
+      catchError(err => throwError(new Error('')))
+    );
+  }
 }
