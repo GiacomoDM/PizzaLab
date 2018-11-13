@@ -48,10 +48,6 @@ tbody tr:hover .hiddenButton {
   cursor: pointer;
 }
 
-#editBtn:hover {
-  color: dodgerblue;
-}
-
 #removeBtn:hover {
   color: var(--color-primary-dark);
 }
