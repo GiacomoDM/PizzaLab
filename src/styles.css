@@ -1,7 +1,7 @@
 body {
   font-family: 'Roboto';
   padding-top: 66px;
-  background: url('/src/assets/pizza-bg.jpg');
+  background: url('/src/assets/img/pizza-bg.jpg');
   background-repeat: repeat;
   background-attachment: fixed;
 }
