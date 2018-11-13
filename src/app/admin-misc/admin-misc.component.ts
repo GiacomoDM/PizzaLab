@@ -3,6 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
+import { SettingsService } from './../settings.service';
+import { Address } from '../address';
 
 @Component({
   selector: 'app-admin-misc',
@@ -19,9 +21,14 @@ export class AdminMiscComponent implements OnInit {
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
   fileName: string = null;
+  minHour: string;
+  maxHour: string;
+  deliveryStep: number;
+  baseAddress: Address;
 
   constructor(
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private settingsService: SettingsService
   ) {
     this.addForm = new FormGroup({
       name: new FormControl()
@@ -30,12 +37,46 @@ export class AdminMiscComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
+    this.getBaseAddress();
+    this.getDeliveryTimeSettings();
   }
 
   getCategories(): void {
     this.categoryService.getCategories().subscribe(
       categories => {
         this.categories = categories;
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+      }
+    );
+  }
+
+  getDeliveryTimeSettings(): void {
+    this.settingsService.getTimes().subscribe(
+      times => {
+        this.deliveryStep = times.step;
+        this.minHour = times.min;
+        this.maxHour = times.max;
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+      }
+    );
+  }
+
+  getBaseAddress(): void {
+    this.settingsService.getAddress().subscribe(
+      address => {
+        this.baseAddress = new Address(
+          address.name,
+          address.lat,
+          address.lng
+        );
         this.hasErrors = false;
       },
       err => {
