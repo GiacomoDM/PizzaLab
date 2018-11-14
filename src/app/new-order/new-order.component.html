@@ -24,15 +24,14 @@
       <div class="form-group row">
         <label for="address" class="col-sm-3 col-form-label">Indirizzo</label>
         <div class="col-sm-9">
-          <input type="text" #searchAddress class="form-control" id="address" placeholder="Indirizzo" required> <!-- formControlName="address" -->
+          <input type="text" #searchAddress class="form-control" id="address" placeholder="Indirizzo" required>
         </div>
       </div>
       <div class="form-group row">
-        <label for="delivery" class="col-sm-3 col-form-label" >Orario consegna</label>
+        <label for="delivery" class="col-sm-3 col-form-label">Orario consegna</label>
         <div class="col-sm-9">
-          <select class="form-control" id="delivery" required formControlName="delivery">
-            <option *ngFor="let time of deliveryTimes">{{time}}</option>
-          </select>
+          <input #inputTime type="time" id="delivery" min="{{minHour}}" max="{{maxHour}}" step="{{deliveryStep}}" required formControlName="delivery" [class]="validateTime(inputTime.value) ? 'form-control' : 'form-control is-invalid'">
+          <span *ngIf="!validateTime(inputTime.value)" class="text-danger">Inserire un orario nell'intervallo {{minHour}} - {{maxHour}}</span>
         </div>
       </div>
     </form>
@@ -41,7 +40,7 @@
       <span>{{getTotal() | number: '1.2-2'}} €</span>
     </div>
     <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#abortOrder">ANNULLA</button>
-    <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid || !autocomplete.getPlace()" data-toggle="modal" data-target="#orderConfirmed">CONFERMA</button>
+    <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid || !autocomplete.getPlace() || !validateTime(inputTime.value)" data-toggle="modal" data-target="#orderConfirmed">CONFERMA</button>
   </div>
 </div>
 

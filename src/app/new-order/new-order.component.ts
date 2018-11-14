@@ -3,6 +3,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl} from '@angular/forms';
 
+import { SettingsService } from './../settings.service';
 import { Product } from '../product';
 import { OrderService } from '../order.service';
 import { Order } from '../order';
@@ -26,37 +27,24 @@ export class NewOrderComponent implements OnInit {
   orderForm: FormGroup;
   hasErrors: boolean;
   errorMsg: string;
-  deliveryTimes = [
-    '18:30',
-    '18:45',
-    '19:00',
-    '19:15',
-    '19:30',
-    '19:45',
-    '20:00',
-    '20:15',
-    '20:30',
-    '20:45',
-    '21:00',
-    '21:15',
-    '21:30',
-    '21:45',
-    '22:00'
-  ];
+  minHour: string;
+  maxHour: string;
+  deliveryStep: number;
 
   constructor(
+    private settingsService: SettingsService,
     private orderService: OrderService,
     private categoryService: CategoryService
   ) {
       this.orderForm = new FormGroup({
         client: new FormControl(),
-        // address: new FormControl(),
-        delivery: new FormControl()
+        delivery: new FormControl(this.minHour)
     });
   }
 
   ngOnInit() {
     this.orderItems = this.orderService.getCurrentOrderItems();
+    this.getDeliveryTimeSettings();
     this.getCategories();
     this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
   }
@@ -65,6 +53,21 @@ export class NewOrderComponent implements OnInit {
     this.categoryService.getCategories().subscribe(
       categories => {
         this.categories = categories;
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+      }
+    );
+  }
+
+  getDeliveryTimeSettings(): void {
+    this.settingsService.getTimes().subscribe(
+      times => {
+        this.deliveryStep = times.step;
+        this.minHour = times.min;
+        this.maxHour = times.max;
         this.hasErrors = false;
       },
       err => {
@@ -102,7 +105,7 @@ export class NewOrderComponent implements OnInit {
         place.geometry.location.lat(),
         place.geometry.location.lng()
       ),
-      this.setDeliveryTime(this.orderForm.value.delivery),
+      this.getTime(this.orderForm.value.delivery),
       this.setOrderItems(),
       this.getTotal(),
       false
@@ -110,11 +113,23 @@ export class NewOrderComponent implements OnInit {
     this.confirmOrder(order);
   }
 
-  setDeliveryTime(delivery: String): Date {
-    const times = delivery.split(':');
+  getTime(time: String): Date {
+    const times = time.split(':');
     const now = new Date();
     now.setHours(+times[0], +times[1], 0, 0);
     return now;
+  }
+
+  validateTime(delivery: String): boolean {
+    if (delivery) {
+      const now = this.getTime(delivery);
+      const min = this.getTime(this.minHour);
+      const max = this.getTime(this.maxHour);
+      if (now >= min && now <= max) {
+        return true;
+      }
+    }
+    return false;
   }
 
   setOrderItems(): OrderItem[] {

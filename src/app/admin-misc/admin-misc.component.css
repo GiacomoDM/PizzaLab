@@ -6,3 +6,59 @@
 .card:hover {
   box-shadow: var(--shadows-3);
 }
+
+.hiddenButton {
+  visibility: hidden;
+}
+
+#categories div:hover .hiddenButton {
+  visibility: visible;
+  cursor: pointer;
+}
+
+#removeBtn:hover {
+  color: var(--color-primary-dark);
+}
+
+#addProductBtn {
+  max-width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  box-shadow: var(--shadows-2);
+  transition: all 0.3s ease-in-out;
+}
+
+#addProductBtn span {
+  font-size: 110%;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+#addProductBtn:hover {
+  box-shadow: var(--shadows-3);
+  max-width: 17em;
+}
+
+#addProductBtn:hover span {
+  opacity: 1;
+}
+
+.modal-content {
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
+#addCategoryModal .modal-header {
+  background-color: var(--color-secondary-dark);
+  color: white;
+}
+
+#deleteCategoryModal .modal-header {
+  background-color: var(--color-primary-dark);
+  color: white;
+}
+
+#categories div:last-child {
+  margin-right: 0 !important;
+}
