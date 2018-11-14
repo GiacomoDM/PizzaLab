@@ -1,4 +1,4 @@
-<div class="card mx-4">
+<div *ngIf="!hasErrors; else errorTemplate" class="card mx-4">
   <div class="card-body">
     <h2 class="card-title">Cronologia ordini</h2>
     <div class="table-responsive">
@@ -61,3 +61,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #errorTemplate>
+  <div class="container">
+    <app-error [errorMsg]="errorMsg"></app-error>
+  </div>
+</ng-template>
