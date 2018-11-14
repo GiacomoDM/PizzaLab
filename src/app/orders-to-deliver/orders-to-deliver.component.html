@@ -1,139 +1,149 @@
-<div class="row mx-4">
-  <div class="col-lg-6 mb-3 px-0 pr-lg-2">
-    <div class="card card-shadows">
-      <div class="card-body">
-        <h2 class="card-title">Ordini da evadere</h2>
-        <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
-        <div class="list-group dragula-container" [class.dragula-container]="orders.length === 0" dragula="ORDERS" [(dragulaModel)]="orders" orders>
-          <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 align-items-stretch justify-content-between">
-              <span class="align-self-center font-weight-bold">{{order.id}}</span>
-              <div class="flex-grow-1 mx-3">
-                <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address.name}}</span>
-                <div>
-                  <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
-                  <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
+<div *ngIf="!hasErrors; else errorTemplate">
+  <div class="row mx-4">
+    <div class="col-lg-6 mb-3 px-0 pr-lg-2">
+      <div class="card card-shadows">
+        <div class="card-body">
+          <h2 class="card-title">Ordini da evadere</h2>
+          <p class="text-muted">Trascina gli ordini per aggiungerli alla prossima consegna</p>
+          <div class="list-group dragula-container" [class.dragula-container]="orders.length === 0" dragula="ORDERS" [(dragulaModel)]="orders" orders>
+            <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 align-items-stretch justify-content-between">
+                <span class="align-self-center font-weight-bold">{{order.id}}</span>
+                <div class="flex-grow-1 mx-3">
+                  <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address.name}}</span>
+                  <div>
+                    <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
+                    <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
+                  </div>
                 </div>
+                <button class="align-self-center btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
+                  PRODOTTI 
+                </button>
               </div>
-              <button class="align-self-center btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
-                PRODOTTI 
-              </button>
+              <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
+                <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1 products-list">
+                  <span>{{item.name}}</span>
+                  <span class="align-self-center text-muted small">{{item.category}}</span>
+                  <span>{{item.price | number: '1.2-2'}} €</span>
+                </li>
+              </ul>
             </div>
-            <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
-              <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1 products-list">
-                <span>{{item.name}}</span>
-                <span class="align-self-center text-muted small">{{item.category}}</span>
-                <span>{{item.price | number: '1.2-2'}} €</span>
-              </li>
-            </ul>
+          </div>
+          <pagination-controls 
+            class="pagination justify-content-center mt-3" 
+            (pageChange)="currentPage = $event" 
+            autoHide="true" 
+            responsive="true"
+            previousLabel=""
+            nextLabel=""> 
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 mb-3 px-0 pl-lg-2">
+      <div class="card card-shadows">
+        <div class="card-body">
+          <h2 class="card-title">Prossima consegna</h2>
+          <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
+          <div class="list-group" [class.dragula-container]="delivery.length === 0" dragula="ORDERS" [(dragulaModel)]="delivery" delivery>
+            <div *ngFor="let order of delivery" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 align-items-stretch justify-content-between">
+                <span class="align-self-center font-weight-bold">{{order.id}}</span>
+                <div class="flex-grow-1 mx-3">
+                  <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address.name}}</span>
+                  <div>
+                    <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
+                    <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
+                  </div>
+                </div>
+                <button class="align-self-center btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
+                  PRODOTTI 
+                </button>
+              </div>
+              <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
+                <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1 products-list">
+                  <span>{{item.name}}</span>
+                  <span class="align-self-center text-muted small">{{item.category}}</span>
+                  <span>{{item.price | number: '1.2-2'}} €</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between mt-3">
+            <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#abortDelivery" [disabled]="delivery.length === 0">ANNULLA</button>
+            <button type="button" class="btn btn-success btn-fill btn-fill-confirm" data-toggle="modal" data-target="#confirmDelivery" (click)="confirmDelivery()" [disabled]="!confirmable">CONFERMA</button>
           </div>
         </div>
-        <pagination-controls 
-          class="pagination justify-content-center mt-3" 
-          (pageChange)="currentPage = $event" 
-          autoHide="true" 
-          responsive="true"
-          previousLabel=""
-          nextLabel=""> 
-        </pagination-controls>
       </div>
     </div>
   </div>
-  <div class="col-lg-6 mb-3 px-0 pl-lg-2">
-    <div class="card card-shadows">
-      <div class="card-body">
-        <h2 class="card-title">Prossima consegna</h2>
-        <p class="text-muted">Trascina gli ordini qui per aggiungerli alla consegna</p>
-        <div class="list-group" [class.dragula-container]="delivery.length === 0" dragula="ORDERS" [(dragulaModel)]="delivery" delivery>
-          <div *ngFor="let order of delivery" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 align-items-stretch justify-content-between">
-              <span class="align-self-center font-weight-bold">{{order.id}}</span>
-              <div class="flex-grow-1 mx-3">
-                <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address.name}}</span>
-                <div>
-                  <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
-                  <span><span class="font-weight-bold">Totale</span>: {{order.total | number: '1.2-2'}} €</span>
-                </div>
-              </div>
-              <button class="align-self-center btn btn-outline-primary btn-outline btn-sm listButton collapsed" type="button" data-toggle="collapse" attr.data-target="#itemsList{{order.id}}" aria-expanded="false" attr.aria-controls="itemsList{{order.id}}">
-                PRODOTTI 
-              </button>
-            </div>
-            <ul class="collapse list-group list-group-flush mt-2" attr.id="itemsList{{order.id}}">
-              <li *ngFor="let item of order.orderItems" class="list-group-item d-flex justify-content-between py-1 products-list">
-                <span>{{item.name}}</span>
-                <span class="align-self-center text-muted small">{{item.category}}</span>
-                <span>{{item.price | number: '1.2-2'}} €</span>
-              </li>
-            </ul>
-          </div>
+  
+  <div class="card card-shadows mx-4">
+    <div class="card-body">
+      <h2 class="card-title">Percorso consegne</h2>
+        <div class="col rounded" #gmap style="width:100%;height:550px"></div>
+    </div>
+  </div>
+  
+  <div #routeInfo id="durationInfo">
+    <div *ngIf="getDuration() && getDistance()" class="card ml-2">
+      <div class="card-body p-2">
+        <h6 class="card-text mb-2">Durata: {{getDuration()}} min</h6>
+        <h6 class="card-text">Distanza: {{getDistance() | number: '1.1-2'}} km</h6>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="abortDelivery" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancella consegna</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="d-flex justify-content-between mt-3">
-          <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#abortDelivery" [disabled]="delivery.length === 0">ANNULLA</button>
-          <button type="button" class="btn btn-success btn-fill btn-fill-confirm" data-toggle="modal" data-target="#confirmDelivery" (click)="confirmDelivery()" [disabled]="!confirmable">CONFERMA</button>
+        <div class="modal-body">
+          Confermando l'operazione tutti gli ordini inseriti nella prossima consegna verranno rimossi.
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
+          <button type="button" class="btn btn-success btn-fill btn-fill-confirm" (click)="abortDelivery()" data-dismiss="modal">CONFERMA</button>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="card card-shadows mx-4">
-  <div class="card-body">
-    <h2 class="card-title">Percorso consegne</h2>
-      <div class="col rounded" #gmap style="width:100%;height:550px"></div>
-  </div>
-</div>
-
-<div #routeInfo id="durationInfo">
-  <div *ngIf="getDuration() && getDistance()" class="card ml-2">
-    <div class="card-body p-2">
-      <h6 class="card-text mb-2">Durata: {{getDuration()}} min</h6>
-      <h6 class="card-text">Distanza: {{getDistance() | number: '1.1-2'}} km</h6>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="abortDelivery" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Cancella consegna</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Confermando l'operazione tutti gli ordini inseriti nella prossima consegna verranno rimossi.
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
-        <button type="button" class="btn btn-success btn-fill btn-fill-confirm" (click)="abortDelivery()" data-dismiss="modal">CONFERMA</button>
+  
+  <div class="modal fade" id="confirmDelivery" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Consegna confermata!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>La consegna è stata confermata. <br>
+            È possibile trovare gli ordini confermati in <a routerLink="/orders" data-dismiss="modal">Ordini evasi</a>.</p>
+          <p *ngIf="routeUrl" class="mb-0">
+            La mappa con il percorso della consegna è disponibile al seguente link:
+            <a target="_blank" href="{{routeUrl}}">Google Maps</a>
+          </p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">CHIUDI </button>
+          <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/dashboard" data-dismiss="modal">TORNA ALLA HOME</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="confirmDelivery" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Consegna confermata!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>La consegna è stata confermata. <br>
-          È possibile trovare gli ordini confermati in <a routerLink="/orders" data-dismiss="modal">Ordini evasi</a>.</p>
-        <p *ngIf="routeUrl" class="mb-0">
-          La mappa con il percorso della consegna è disponibile al seguente link:
-          <a target="_blank" href="{{routeUrl}}">Google Maps</a>
-        </p>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">CHIUDI </button>
-        <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/dashboard" data-dismiss="modal">TORNA ALLA HOME</a>
-      </div>
-    </div>
+
+<ng-template #errorTemplate>
+  <div class="container">
+    <app-error [errorMsg]="errorMsg"></app-error>
   </div>
-</div>
+</ng-template>
+  
