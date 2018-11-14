@@ -1,6 +1,6 @@
 /// <reference types="@types/googlemaps" />
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { Category } from '../category';
@@ -13,12 +13,17 @@ import { Address } from '../address';
   templateUrl: './admin-misc.component.html',
   styleUrls: ['./admin-misc.component.css']
 })
-export class AdminMiscComponent implements OnInit {
+export class AdminMiscComponent implements OnInit, AfterViewInit {
 
   categories: Category[] = [];
   selectedCategory: Category;
-  hasErrors: boolean;
-  errorMsg: string;
+  errorMsg = 'Impossibile recuperare i dati dal server.';
+  hasCategoryErrors: boolean;
+  errorMsgCategory: string;
+  hasDeliveryErrors: boolean;
+  errorMsgDelivery: string;
+  hasAddressErrors: boolean;
+  errorMsgAddress: string;
   addForm: FormGroup;
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
@@ -45,6 +50,9 @@ export class AdminMiscComponent implements OnInit {
     this.getCategories();
     this.getBaseAddress();
     this.getDeliveryTimeSettings();
+  }
+
+  ngAfterViewInit(): void {
     this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
   }
 
@@ -52,11 +60,11 @@ export class AdminMiscComponent implements OnInit {
     this.categoryService.getCategories().subscribe(
       categories => {
         this.categories = categories;
-        this.hasErrors = false;
+        this.hasCategoryErrors = false;
       },
       err => {
-        this.hasErrors = true;
-        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+        this.hasCategoryErrors = true;
+        this.errorMsgCategory = 'Impossibile recuperare le categorie dal server.';
       }
     );
   }
@@ -67,11 +75,11 @@ export class AdminMiscComponent implements OnInit {
         this.minHour = times.min;
         this.maxHour = times.max;
         this.deliveryStep = times.step / 60;
-        this.hasErrors = false;
+        this.hasDeliveryErrors = false;
       },
       err => {
-        this.hasErrors = true;
-        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+        this.hasDeliveryErrors = true;
+        this.errorMsgDelivery = 'Impossibile recuperare i parametri delle consegne dal server.';
       }
     );
   }
@@ -84,11 +92,11 @@ export class AdminMiscComponent implements OnInit {
           address.lat,
           address.lng
         );
-        this.hasErrors = false;
+        this.hasAddressErrors = false;
       },
       err => {
-        this.hasErrors = true;
-        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+        this.hasAddressErrors = true;
+        this.errorMsgAddress = 'Impossibile recuperare l\'indirizzo della pizzeria dal server.';
       }
     );
   }
@@ -99,11 +107,11 @@ export class AdminMiscComponent implements OnInit {
       newProd => {
         this.categories.push(newProd);
         this.addForm.reset();
-        this.hasErrors = false;
+        this.hasCategoryErrors = false;
       },
       err => {
-        this.hasErrors = true;
-        this.errorMsg = `Impossibile aggiungere la categoria al database.`;
+        this.hasCategoryErrors = true;
+        this.errorMsgCategory = `Impossibile aggiungere la categoria al database.`;
       }
     );
   }
@@ -114,11 +122,11 @@ export class AdminMiscComponent implements OnInit {
       () => {
         this.categories = this.categories.filter(c => c !== category);
         this.selectedCategory = null;
-        this.hasErrors = false;
+        this.hasCategoryErrors = false;
       },
       err => {
-        this.hasErrors = true;
-        this.errorMsg = 'Impossibile rimuovere la categoria selezionato.';
+        this.hasCategoryErrors = true;
+        this.errorMsgCategory = 'Impossibile rimuovere la categoria selezionato.';
       }
     );
   }
@@ -132,11 +140,11 @@ export class AdminMiscComponent implements OnInit {
       }).subscribe(
         () => {
           this.editTimes = false;
-          this.hasErrors = false;
+          this.hasDeliveryErrors = false;
         },
         err => {
-          this.hasErrors = true;
-          this.errorMsg = 'Impossibile salvare i dati.';
+          this.hasDeliveryErrors = true;
+          this.errorMsgDelivery = 'Impossibile salvare i dati.';
         }
       );
   }
@@ -146,11 +154,11 @@ export class AdminMiscComponent implements OnInit {
     .subscribe(
       () => {
         this.editAddress = false;
-        this.hasErrors = false;
+        this.hasAddressErrors = false;
       },
       err => {
-        this.hasErrors = true;
-        this.errorMsg = 'Impossibile salvare l\'indirizzo.';
+        this.hasAddressErrors = true;
+        this.errorMsgAddress = 'Impossibile salvare l\'indirizzo.';
       }
     );
   }

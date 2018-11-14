@@ -1,10 +1,11 @@
-<div class="card mx-4">
+<div *ngIf="!hasCategoryErrors || !hasAddressErrors || !hasDeliveryErrors; else errorTemplate">
+  <div class="card mx-4">
     <div class="card-body">
       <h2 class="card-title mb-4">Gestione configurazione PizzaLab</h2>
       <div>
         <div class="form-group row">
           <h5 class="col-sm-3">Consegne</h5>
-          <div class="col border rounded p-3 mx-3">
+          <div *ngIf="!hasDeliveryErrors; else errorDeliveryTemplate" class="col border rounded p-3 mx-3">
             <div class="form-group row">
               <label for="start" class="col-sm-4 col-form-label">Orario inizio consegne</label>
               <div class="col-sm-8">
@@ -29,11 +30,16 @@
               <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditTimes()">SALVA</button>
             </div>
           </div>
+          <ng-template #errorDeliveryTemplate>
+            <div class="col-sm-9">
+              <app-error [errorMsg]="errorMsgDelivery"></app-error>
+            </div>
+          </ng-template>
         </div>
         <div class="form-group row">
           <h5 class="col-sm-3">Indirizzo pizzeria</h5>
           <div class="col-sm-9">
-            <div class="d-flex">
+            <div *ngIf="!hasAddressErrors; else errorAddressTemplate" class="d-flex">
               <input #searchAddress type="text" class="form-control flex-grow-1 mr-3" id="address" placeholder="Indirizzo pizzeria" value="{{baseAddress ? baseAddress.name : ''}}" [readonly]="!editAddress">
               <button *ngIf="!editAddress" type="button" class="btn btn-outline btn-outline-primary float-right" (click)="editAddress = true">MODIFICA</button>
               <div *ngIf="editAddress" class="d-flex">
@@ -41,12 +47,15 @@
                 <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditAddress()" [disabled]="!searchAddress.value ||!autocomplete.getPlace()">SALVA</button>
               </div>
             </div>
+            <ng-template #errorAddressTemplate>
+              <app-error [errorMsg]="errorMsgAddress"></app-error>
+            </ng-template>
           </div>
         </div>
       </div>
       <div class="form-group row">
         <h5 class="col-sm-3">Categorie</h5>
-        <div class="col-sm-9">
+        <div *ngIf="!hasCategoryErrors; else errorCategoryTemplate" class="col-sm-9">
           <div class="d-flex flex-wrap align-items-center" id="categories">
             <div *ngFor="let category of categories" class="border rounded list-group-item-action d-flex flex-fill align-items-center align-self-center justify-content-between mr-3 mb-3 p-3 w-auto">
               <span class="mr-3">{{category.name}}</span>
@@ -58,10 +67,15 @@
             <span class="align-self-end pr-1">AGGIUNGI CATEGORIA</span>
           </button>
         </div>
+        <ng-template #errorCategoryTemplate>
+          <div class="col-sm-9">
+            <app-error [errorMsg]="errorMsgCategory"></app-error>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
-
+  
   <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModal" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -105,7 +119,7 @@
       </div>
     </div>
   </div>
-
+  
   <div *ngIf="selectedCategory" class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModal" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -127,3 +141,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="container">
+    <app-error [errorMsg]="errorMsg"></app-error>
+  </div>
+</ng-template>
+  
