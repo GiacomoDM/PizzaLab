@@ -1,3 +1,5 @@
+/// <reference types="@types/googlemaps" />
+
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -27,6 +29,8 @@ export class AdminMiscComponent implements OnInit {
   baseAddress: Address;
   editTimes = false;
   editAddress = false;
+  @ViewChild('searchAddress') inputElement: ElementRef;
+  autocomplete: google.maps.places.Autocomplete;
 
   constructor(
     private categoryService: CategoryService,
@@ -41,6 +45,7 @@ export class AdminMiscComponent implements OnInit {
     this.getCategories();
     this.getBaseAddress();
     this.getDeliveryTimeSettings();
+    this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
   }
 
   getCategories(): void {
@@ -188,6 +193,13 @@ export class AdminMiscComponent implements OnInit {
   }
 
   saveEditAddress(): void {
-    this.updateAddress(this.baseAddress);
+    const place = this.autocomplete.getPlace();
+    this.updateAddress(
+      new Address(
+        place.formatted_address,
+        place.geometry.location.lat(),
+        place.geometry.location.lng()
+      )
+    );
   }
 }

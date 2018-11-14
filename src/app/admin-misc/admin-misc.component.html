@@ -34,11 +34,11 @@
           <h5 class="col-sm-3">Indirizzo pizzeria</h5>
           <div class="col-sm-9">
             <div class="d-flex">
-              <input type="text" class="form-control flex-grow-1 mr-3" id="address" placeholder="Indirizzo pizzeria" value="{{baseAddress ? baseAddress.name : ''}}" [readonly]="!editAddress">
+              <input #searchAddress type="text" class="form-control flex-grow-1 mr-3" id="address" placeholder="Indirizzo pizzeria" value="{{baseAddress ? baseAddress.name : ''}}" [readonly]="!editAddress">
               <button *ngIf="!editAddress" type="button" class="btn btn-outline btn-outline-primary float-right" (click)="editAddress = true">MODIFICA</button>
               <div *ngIf="editAddress" class="d-flex">
                 <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="abortEditAddress()">ANNULLA</button>
-                <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditAddress()">SALVA</button>
+                <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditAddress()" [disabled]="!searchAddress.value ||!autocomplete.getPlace()">SALVA</button>
               </div>
             </div>
           </div>
