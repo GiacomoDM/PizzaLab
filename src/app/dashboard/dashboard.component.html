@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div *ngIf="!hasErrors; else errorTemplate" class="container-fluid">
   <div class="row">
     <div class="col-9 product-list">
       <div class="grid">
@@ -10,3 +10,7 @@
     </div>
   </div>
 </div>
+
+<ng-template #errorTemplate>
+  <app-error [errorMsg]="errorMsg"></app-error>
+</ng-template>
