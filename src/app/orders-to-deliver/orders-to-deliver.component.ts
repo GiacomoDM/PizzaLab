@@ -4,8 +4,10 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/co
 import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
+import { SettingsService } from './../settings.service';
 import { OrderService } from '../order.service';
 import { Order } from '../order';
+import { Address } from '../address';
 
 @Component({
   selector: 'app-orders-to-deliver',
@@ -28,16 +30,14 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   directionsService: google.maps.DirectionsService;
   directionsDisplay: google.maps.DirectionsRenderer;
   marker: google.maps.Marker;
-  baseAddress = {
-    lat: 45.409688,
-    lng: 11.891188
-  };
+  baseAddress: Address;
   totalDistance: number;
   totalTime: number;
   @ViewChild('routeInfo') routeInfo: ElementRef;
   routeUrl: string;
 
   constructor(
+    private settingsService: SettingsService,
     private orderService: OrderService,
     private dragulaService: DragulaService
   ) {
@@ -63,8 +63,8 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getBaseAddress();
     this.getOrders();
-    this.initMap();
   }
 
   ngOnDestroy() {
@@ -72,6 +72,24 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
     // destroy dragula container
     this.dragulaService.destroy('ORDERS');
+  }
+
+  getBaseAddress(): void {
+    this.settingsService.getAddress().subscribe(
+      address => {
+        this.baseAddress = new Address(
+          address.name,
+          address.lat,
+          address.lng
+        );
+        this.initMap();
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile recuperare i dati dal server.';
+      }
+    );
   }
 
   getOrders(): void {
@@ -130,7 +148,7 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   initMap() {
     const mapProp = {
-      center: this.baseAddress,
+      center: this.baseAddress.getLatLng(),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -143,7 +161,7 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   setMarker() {
     this.marker = new google.maps.Marker({
-      position: this.baseAddress,
+      position: this.baseAddress.getLatLng(),
       map: this.map,
       title: 'Pizzeria',
       animation: google.maps.Animation.DROP
@@ -176,8 +194,8 @@ export class OrdersToDeliverComponent implements OnInit, OnDestroy {
 
   calcRoute() {
     const DirectionsRequest = {
-      origin: this.baseAddress,
-      destination: this.baseAddress,
+      origin: this.baseAddress.getLatLng(),
+      destination: this.baseAddress.getLatLng(),
       waypoints: this.getWayPoints(),
       optimizeWaypoints: true,
       provideRouteAlternatives: false,
