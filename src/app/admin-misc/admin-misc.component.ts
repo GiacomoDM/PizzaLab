@@ -25,6 +25,8 @@ export class AdminMiscComponent implements OnInit {
   maxHour: string;
   deliveryStep: number;
   baseAddress: Address;
+  editTimes = false;
+  editAddress = false;
 
   constructor(
     private categoryService: CategoryService,
@@ -57,9 +59,9 @@ export class AdminMiscComponent implements OnInit {
   getDeliveryTimeSettings(): void {
     this.settingsService.getTimes().subscribe(
       times => {
-        this.deliveryStep = times.step;
         this.minHour = times.min;
         this.maxHour = times.max;
+        this.deliveryStep = times.step / 60;
         this.hasErrors = false;
       },
       err => {
@@ -116,6 +118,38 @@ export class AdminMiscComponent implements OnInit {
     );
   }
 
+  updateTimes(): void {
+    this.settingsService.updateTimes(
+      {
+        'min': this.minHour,
+        'max': this.maxHour,
+        'step': this.deliveryStep * 60
+      }).subscribe(
+        () => {
+          this.editTimes = false;
+          this.hasErrors = false;
+        },
+        err => {
+          this.hasErrors = true;
+          this.errorMsg = 'Impossibile salvare i dati.';
+        }
+      );
+  }
+
+  updateAddress(address: Address): void {
+    this.settingsService.updateAddress(address)
+    .subscribe(
+      () => {
+        this.editAddress = false;
+        this.hasErrors = false;
+      },
+      err => {
+        this.hasErrors = true;
+        this.errorMsg = 'Impossibile salvare l\'indirizzo.';
+      }
+    );
+  }
+
   onSelect(id: number) {
     this.selectedCategory = this.categories.find(c => c.id === id);
   }
@@ -135,7 +169,25 @@ export class AdminMiscComponent implements OnInit {
     this.addClose.nativeElement.click();
   }
 
-  fileInput(fileInput) {
+  fileInput(fileInput): void {
     this.fileName = fileInput.target.files[0].name;
+  }
+
+  abortEditTimes(): void {
+    this.getDeliveryTimeSettings();
+    this.editTimes = false;
+  }
+
+  saveEditTimes(): void {
+    this.updateTimes();
+  }
+
+  abortEditAddress(): void {
+    this.getBaseAddress();
+    this.editAddress = false;
+  }
+
+  saveEditAddress(): void {
+    this.updateAddress(this.baseAddress);
   }
 }

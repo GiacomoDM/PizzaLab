@@ -58,3 +58,7 @@
   background-color: var(--color-primary-dark);
   color: white;
 }
+
+#categories div:last-child {
+  margin-right: 0 !important;
+}

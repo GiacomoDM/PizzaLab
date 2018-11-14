@@ -3,32 +3,44 @@
       <h2 class="card-title mb-4">Gestione configurazione PizzaLab</h2>
       <div>
         <div class="form-group row">
-          <h5 class="col-sm-3">Spedizione</h5>
-          <div class="col border rounded px-3 pt-3 mx-3">
+          <h5 class="col-sm-3">Consegne</h5>
+          <div class="col border rounded p-3 mx-3">
             <div class="form-group row">
-              <label for="start" class="col-sm-4 col-form-label text-right">Consegna dalle</label>
+              <label for="start" class="col-sm-4 col-form-label">Orario inizio consegne</label>
               <div class="col-sm-8">
-                <input type="time" id="start" value="{{minHour}}" class="form-control text-center" readonly>
+                <input type="time" id="start" [(ngModel)]="minHour" class="form-control text-center" [readonly]="!editTimes">
               </div>
             </div>
             <div class="form-group row">
-              <label for="end" class="col-sm-4 col-form-label text-right">fino alle</label>
+              <label for="end" class="col-sm-4 col-form-label">Orario fine consegne</label>
               <div class="col-sm-8">
-                <input type="time" id="end" value="{{maxHour}}" class="form-control text-center" readonly>
+                <input type="time" id="end" [(ngModel)]="maxHour" class="form-control text-center" [readonly]="!editTimes">
               </div>
             </div>
             <div class="form-group row">
-              <label for="step" class="col-sm-4 col-form-label text-right">Intervallo consegne (min) </label>
+              <label for="step" class="col-sm-4 col-form-label">Intervallo consegne (min) </label>
               <div class="col-sm-8">
-                <input type="number" id="step" min="0" max="60" value="{{deliveryStep / 60 }}" class="form-control text-center" readonly>
+                <input type="number" id="step" min="0" max="60" [(ngModel)]="deliveryStep" class="form-control text-center" [readonly]="!editTimes">
               </div>
+            </div>
+            <button *ngIf="!editTimes" type="button" class="btn btn-outline btn-outline-primary float-right" (click)="editTimes = true">MODIFICA</button>
+            <div *ngIf="editTimes" class="float-right">
+              <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="abortEditTimes()">ANNULLA</button>
+              <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditTimes()">SALVA</button>
             </div>
           </div>
         </div>
         <div class="form-group row">
           <h5 class="col-sm-3">Indirizzo pizzeria</h5>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="address" placeholder="Indirizzo pizzeria" value="{{baseAddress.name}}" readonly>
+            <div class="d-flex">
+              <input type="text" class="form-control flex-grow-1 mr-3" id="address" placeholder="Indirizzo pizzeria" value="{{baseAddress ? baseAddress.name : ''}}" [readonly]="!editAddress">
+              <button *ngIf="!editAddress" type="button" class="btn btn-outline btn-outline-primary float-right" (click)="editAddress = true">MODIFICA</button>
+              <div *ngIf="editAddress" class="d-flex">
+                <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="abortEditAddress()">ANNULLA</button>
+                <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditAddress()">SALVA</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
