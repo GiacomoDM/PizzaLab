@@ -1,6 +1,6 @@
 /// <reference types="@types/googlemaps" />
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl} from '@angular/forms';
 
 import { SettingsService } from './../settings.service';
@@ -17,7 +17,7 @@ import { Address } from '../address';
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.css']
 })
-export class NewOrderComponent implements OnInit {
+export class NewOrderComponent implements OnInit, AfterViewInit {
 
   orderConfirmed = false;
   orderItems: Product[];
@@ -46,6 +46,9 @@ export class NewOrderComponent implements OnInit {
     this.orderItems = this.orderService.getCurrentOrderItems();
     this.getDeliveryTimeSettings();
     this.getCategories();
+  }
+
+  ngAfterViewInit(): void {
     this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
   }
 
