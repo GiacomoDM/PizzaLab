@@ -20,6 +20,7 @@ import { AdminMiscComponent } from './admin-misc/admin-misc.component';
 import { OrdersToDeliverComponent } from './orders-to-deliver/orders-to-deliver.component';
 import { DragulaModule } from 'ng2-dragula';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AdminMiscComponent,
     OrdersToDeliverComponent,
     NotFoundComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
