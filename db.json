@@ -384,5 +384,15 @@
       "delivered": false,
       "id": 10
     }
-  ]
+  ],
+  "baseAddress": {
+    "name": "Via Leonardo Loredan, 28, 35131 Padova PD",
+    "lat": 45.40973160000001,
+    "lng": 11.891224599999987
+  },
+  "deliveryTimes": {
+    "min": "18:30",
+    "max": "23:00",
+    "step": 600
+  }
 }
