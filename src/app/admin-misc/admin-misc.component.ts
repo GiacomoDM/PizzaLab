@@ -1,7 +1,7 @@
 /// <reference types="@types/googlemaps" />
 
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
@@ -25,6 +25,7 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
   hasAddressErrors: boolean;
   errorMsgAddress: string;
   addForm: FormGroup;
+  namePattern = /^[a-z \u00C0-\u017F,.\'-]{2,30}$/i;
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
   fileName: string = null;
@@ -42,7 +43,7 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
     private settingsService: SettingsService
   ) {
     this.addForm = new FormGroup({
-      name: new FormControl()
+      name: new FormControl(null, [Validators.pattern(this.namePattern), Validators.required])
     });
   }
 
@@ -54,6 +55,7 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
+    this.autocomplete.setComponentRestrictions({country: 'it'});
   }
 
   getCategories(): void {
@@ -153,6 +155,8 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
     this.settingsService.updateAddress(address)
     .subscribe(
       () => {
+        this.baseAddress = address;
+        this.inputElement.nativeElement.value = this.baseAddress.name;
         this.editAddress = false;
         this.hasAddressErrors = false;
       },
@@ -165,13 +169,6 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
 
   onSelect(id: number) {
     this.selectedCategory = this.categories.find(c => c.id === id);
-  }
-
-  usedName(name: string) {
-    if (this.categories.filter(c => c.name.toLowerCase() === name.toLowerCase().trim()).length > 0) {
-      return true;
-    }
-    return false;
   }
 
   onSubmit(): void {
@@ -196,7 +193,8 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
   }
 
   abortEditAddress(): void {
-    this.getBaseAddress();
+    this.autocomplete.set('place', null);
+    this.inputElement.nativeElement.value = this.baseAddress.name;
     this.editAddress = false;
   }
 
@@ -209,5 +207,36 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
         place.geometry.location.lng()
       )
     );
+  }
+
+  validateTime(): boolean {
+    if (this.minHour < this.maxHour) {
+      return true;
+    }
+    return false;
+  }
+
+  validateStep(): boolean {
+    if (this.deliveryStep > 0 && this.deliveryStep < 61) {
+      return true;
+    }
+    return false;
+  }
+
+  usedName(name: string): boolean {
+    if (this.categories.filter(c => c.name.toLowerCase() === name.toLowerCase().trim()).length > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  validateName(name: string): boolean {
+    if (name) {
+      if (name.trim().match(this.namePattern)) {
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
 }

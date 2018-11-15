@@ -9,25 +9,28 @@
             <div class="form-group row">
               <label for="start" class="col-sm-4 col-form-label">Orario inizio consegne</label>
               <div class="col-sm-8">
-                <input type="time" id="start" [(ngModel)]="minHour" class="form-control text-center" [readonly]="!editTimes">
+                <input type="time" id="start" [(ngModel)]="minHour" class="form-control text-center" [class.is-invalid]="!validateTime()" [readonly]="!editTimes">
+                <span *ngIf="!validateTime()" class="text-small text-danger">L'ora di inizio consegne non è compatibile con l'ora di fine</span>
               </div>
             </div>
             <div class="form-group row">
               <label for="end" class="col-sm-4 col-form-label">Orario fine consegne</label>
               <div class="col-sm-8">
-                <input type="time" id="end" [(ngModel)]="maxHour" class="form-control text-center" [readonly]="!editTimes">
+                <input type="time" id="end" [(ngModel)]="maxHour" class="form-control text-center" [class.is-invalid]="!validateTime()" [readonly]="!editTimes">
+                <span *ngIf="!validateTime()" class="text-small text-danger">L'ora di fine consegne non è compatibile con l'ora di inizio</span>
               </div>
             </div>
             <div class="form-group row">
               <label for="step" class="col-sm-4 col-form-label">Intervallo consegne (min) </label>
               <div class="col-sm-8">
-                <input type="number" id="step" min="0" max="60" [(ngModel)]="deliveryStep" class="form-control text-center" [readonly]="!editTimes">
+                <input type="number" id="step" min="1" max="60" [(ngModel)]="deliveryStep" class="form-control text-center" [class.is-invalid]="!validateStep()" [readonly]="!editTimes">
+                <span *ngIf="!validateStep()" class="text-small text-danger">L'intervallo tra le consegne deve essere compreso tra 1 e 60 minuti</span>
               </div>
             </div>
             <button *ngIf="!editTimes" type="button" class="btn btn-outline btn-outline-primary float-right" (click)="editTimes = true">MODIFICA</button>
             <div *ngIf="editTimes" class="float-right">
               <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="abortEditTimes()">ANNULLA</button>
-              <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditTimes()">SALVA</button>
+              <button type="button" class="btn btn-success btn-fill btn-fill-confirm ml-3" (click)="saveEditTimes()" [disabled]="!validateTime()">SALVA</button>
             </div>
           </div>
           <ng-template #errorDeliveryTemplate>
@@ -90,8 +93,9 @@
             <div class="form-group row">
               <label for="name" class="col-sm-3 col-form-label">Nome</label>
               <div class="col-sm-9">
-                <input #name type="text" [class]="usedName(name.value) ? 'form-control is-invalid' : 'form-control'" id="name" placeholder="Nome categoria" required formControlName="name">
+                <input #name type="text" [class.is-invalid]="usedName(name.value) || !validateName(name.value)" class="form-control" id="name" placeholder="Nome categoria" formControlName="name">
                 <span *ngIf="usedName(name.value)" class="text-danger">Esiste già una categoria con quel nome!</span>
+                <span *ngIf="!validateName(name.value)" class="text-danger">Nome inserito non valido</span>
               </div>
             </div>
             <div class="form-group row">
@@ -114,7 +118,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="addForm.reset()" data-dismiss="modal">ANNULLA</button>
-          <button type="submit" form="addCategoryForm" class="btn btn-success btn-fill btn-fill-confirm" [disabled]="!addForm.valid || usedName(name.value) || !fileName">CONFERMA</button>
+          <button type="submit" form="addCategoryForm" class="btn btn-success btn-fill btn-fill-confirm" [disabled]="addForm.invalid || usedName(name.value) || !fileName || !validateName(name.value)">CONFERMA</button>
         </div>
       </div>
     </div>
@@ -130,7 +134,7 @@
           </button>
         </div>
         <div class="modal-body">
-          Sei sicuro di voler rimuovere la categoria {{selectedCategory.name}}?
+          Sei sicuro di voler rimuovere la categoria {{selectedCategory.name}}? Tutti i prodotti di tale categoria verranno eliminati.
           <br>
           L'operazione è irreversibile.
         </div>
