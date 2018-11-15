@@ -1,7 +1,7 @@
 /// <reference types="@types/googlemaps" />
 
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { SettingsService } from './../settings.service';
 import { Product } from '../product';
@@ -25,6 +25,7 @@ export class NewOrderComponent implements OnInit, AfterViewInit {
   @ViewChild('searchAddress') inputElement: ElementRef;
   autocomplete: google.maps.places.Autocomplete;
   orderForm: FormGroup;
+  namePattern = /^[a-z \u00C0-\u017F,.\'-]{2,30}$/i;
   hasErrors: boolean;
   errorMsg: string;
   minHour: string;
@@ -35,17 +36,16 @@ export class NewOrderComponent implements OnInit, AfterViewInit {
     private settingsService: SettingsService,
     private orderService: OrderService,
     private categoryService: CategoryService
-  ) {
-      this.orderForm = new FormGroup({
-        client: new FormControl(),
-        delivery: new FormControl(this.minHour)
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.orderItems = this.orderService.getCurrentOrderItems();
     this.getDeliveryTimeSettings();
     this.getCategories();
+    this.orderForm = new FormGroup({
+        client: new FormControl(null, Validators.required),
+        delivery: new FormControl('', Validators.required)
+    });
   }
 
   ngAfterViewInit(): void {
@@ -71,6 +71,10 @@ export class NewOrderComponent implements OnInit, AfterViewInit {
         this.deliveryStep = times.step;
         this.minHour = times.min;
         this.maxHour = times.max;
+        this.orderForm.setValue({
+          client: null,
+          delivery: this.minHour
+        });
         this.hasErrors = false;
       },
       err => {
@@ -133,6 +137,16 @@ export class NewOrderComponent implements OnInit, AfterViewInit {
       }
     }
     return false;
+  }
+
+  validateName(name: string): boolean {
+    if (name) {
+      if (name.trim().match(this.namePattern)) {
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
 
   setOrderItems(): OrderItem[] {

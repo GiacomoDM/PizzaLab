@@ -13,25 +13,27 @@
               <span>{{item.price | number: '1.2-2'}} €</span>
             </li>
           </ul>
+          <span *ngIf="orderItems.length === 0" class="text-danger">Nessun prodotto nell'ordine.</span>
         </div>
       </div>
       <form [formGroup]="orderForm" class="mb-3" id="confirmOrder" (ngSubmit)="onSubmit()">
         <div class="form-group row">
           <label for="client" class="col-sm-3 col-form-label">Destinatario</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="client" placeholder="Destinatario" required formControlName="client">
+            <input #name type="text" class="form-control" [class.is-invalid]="!validateName(name.value)" id="client" placeholder="Destinatario" formControlName="client">
+            <span *ngIf="!validateName(name.value)" class="text-danger">Nome inserito non valido</span>
           </div>
         </div>
         <div class="form-group row">
           <label for="address" class="col-sm-3 col-form-label">Indirizzo</label>
           <div class="col-sm-9">
-            <input type="text" #searchAddress class="form-control" id="address" placeholder="Indirizzo" required>
+            <input type="text" #searchAddress class="form-control" id="address" placeholder="Indirizzo">
           </div>
         </div>
         <div class="form-group row">
           <label for="delivery" class="col-sm-3 col-form-label">Orario consegna</label>
           <div class="col-sm-9">
-            <input #inputTime type="time" id="delivery" min="{{minHour}}" max="{{maxHour}}" step="{{deliveryStep}}" required formControlName="delivery" [class]="validateTime(inputTime.value) ? 'form-control' : 'form-control is-invalid'">
+            <input #inputTime type="time" id="delivery" min="{{minHour}}" max="{{maxHour}}" step="{{deliveryStep}}" formControlName="delivery" [class.is-invalid]="!validateTime(inputTime.value)" class="form-control">
             <span *ngIf="!validateTime(inputTime.value)" class="text-danger">Inserire un orario nell'intervallo {{minHour}} - {{maxHour}}</span>
           </div>
         </div>
@@ -41,7 +43,7 @@
         <span>{{getTotal() | number: '1.2-2'}} €</span>
       </div>
       <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#abortOrder">ANNULLA</button>
-      <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid || !autocomplete.getPlace() || !validateTime(inputTime.value)" data-toggle="modal" data-target="#orderConfirmed">CONFERMA</button>
+      <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid || !autocomplete.getPlace() || !validateTime(inputTime.value) || orderItems.length === 0 || !validateName(name.value)" data-toggle="modal" data-target="#orderConfirmed">CONFERMA</button>
     </div>
   </div>
   
