@@ -17,7 +17,6 @@
 }
 
 .category-card:hover .card-img-top {
-  /* object-position: center 42.5%; */
   filter: blur(0);
 }
 
@@ -28,55 +27,4 @@
 .product-card:hover {
   background-color: var(--color-secondary-light);
   cursor: pointer;
-}
-
-.delete-card {
-  border-color: var(--color-primary-dark);
-}
-
-.delete-card:hover {
-  background-color: var(--color-primary-light);
-  cursor: pointer;
-}
-
-.remove::after {
-  content: 'delete_outline';
-}
-
-.remove {
-  color: var(--color-primary);
-  font-size: 200%;
-}
-
-.remove:hover::after {
-  content: "delete";
-  cursor: pointer;
-}
-
-.add::after {
-  content: 'add_circle_outline';
-}
-
-.add {
-  color: var(--color-secondary);
-  font-size: 200%;
-}
-
-.add:hover::after {
-  content: "add_circle";
-  cursor: pointer;
-}
-
-.modal-content {
-  border: 0;
-  box-shadow: var(--shadows-2);
-}
-
-.add-product .modal-header {
-  background-color: var(--color-secondary);
-}
-
-.delete-product .modal-header {
-  background-color: var(--color-primary-dark);
-  color: white;
 }
