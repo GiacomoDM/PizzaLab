@@ -14,7 +14,7 @@ import { CategoryService } from '../category.service';
 })
 export class AdminProductComponent implements OnInit {
 
-  categories: Category[];
+  categories: Category[] = [];
   products: Product[] = [];
   selectedProduct: Product;
   hasErrors: boolean;
