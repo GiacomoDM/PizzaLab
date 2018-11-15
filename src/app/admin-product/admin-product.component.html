@@ -5,7 +5,7 @@
       <div class="form-row">
         <div class="form-group col-sm-7">
           <div class="input-group">
-            <input class="form-control" placeholder="Cerca prodotti" [(ngModel)]="searchFilter.name">
+            <input class="form-control" [class.is-invalid]="(products | filterBy: searchFilter).length === 0" placeholder="Cerca prodotti" [(ngModel)]="searchFilter.name">
             <i *ngIf="searchFilter.name.length > 0" class="material-icons clear-icon" (click)="searchFilter.name = ''">clear</i>
             <div class="input-group-append">
               <div class="input-group-text"><i class="material-icons">search</i></div>
@@ -57,6 +57,7 @@
                 <i class="material-icons hiddenButton" id="removeBtn" data-toggle="modal" data-target="#deleteProductModal" (click)="onSelect(product.id)"> delete </i> 
               </td>
             </tr>
+            <td colspan="5" *ngIf="(products | filterBy: searchFilter).length === 0" class="text-danger font-weight-bold">Nessun risultato per la ricerca</td>
           </tbody>
         </table>
         <pagination-controls 
