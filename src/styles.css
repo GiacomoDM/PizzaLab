@@ -28,6 +28,11 @@ body {
   box-shadow: var(--shadows-3);
 }
 
+.modal-content {
+  border: 0;
+  box-shadow: var(--shadows-2);
+}
+
 .btn-outline {
   font-weight: bold;
   font-size: 85%;
