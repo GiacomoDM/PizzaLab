@@ -50,6 +50,7 @@ export class NewOrderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement);
+    this.autocomplete.setComponentRestrictions({country: 'it'});
   }
 
   getCategories(): void {
