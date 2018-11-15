@@ -1,12 +1,3 @@
-.card {
-  box-shadow: var(--shadows-2);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-
-.card:hover {
-  box-shadow: var(--shadows-3);
-}
-
 .hiddenButton {
   visibility: hidden;
 }
@@ -42,21 +33,6 @@
 
 #addProductBtn:hover span {
   opacity: 1;
-}
-
-.modal-content {
-  border: 0;
-  box-shadow: var(--shadows-2);
-}
-
-#addCategoryModal .modal-header {
-  background-color: var(--color-secondary-dark);
-  color: white;
-}
-
-#deleteCategoryModal .modal-header {
-  background-color: var(--color-primary-dark);
-  color: white;
 }
 
 #categories div:last-child {

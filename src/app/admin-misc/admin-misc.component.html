@@ -1,5 +1,5 @@
 <div *ngIf="!hasCategoryErrors || !hasAddressErrors || !hasDeliveryErrors; else errorTemplate">
-  <div class="card mx-4">
+  <div class="card card-shadows mx-4">
     <div class="card-body">
       <h2 class="card-title mb-4">Gestione configurazione PizzaLab</h2>
       <div>
@@ -79,7 +79,7 @@
     </div>
   </div>
   
-  <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModal" aria-hidden="true" data-backdrop="static">
+  <div class="modal modal-secondary fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModal" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -124,7 +124,7 @@
     </div>
   </div>
   
-  <div *ngIf="selectedCategory" class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModal" aria-hidden="true" data-backdrop="static">
+  <div *ngIf="selectedCategory" class="modal modal-primary fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModal" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">

@@ -1,11 +1,5 @@
 .card {
   height: 85vh;
-  box-shadow: var(--shadows-2);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-
-.card:hover {
-  box-shadow: var(--shadows-3);
 }
 
 .card-body {
@@ -41,19 +35,4 @@
 
 .add:hover::after {
   content: "add_circle";
-}
-
-.card-footer {
-  border: 0;
-  background-color: white;
-}
-
-#clearOrders .modal-content{
-  border: 0;
-  box-shadow: var(--shadows-2);
-}
-
-#clearOrders .modal-header {
-  color: white;
-  background-color: var(--color-primary-dark);
 }

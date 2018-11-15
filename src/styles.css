@@ -33,6 +33,16 @@ body {
   box-shadow: var(--shadows-2);
 }
 
+.modal-primary .modal-header {
+  background-color: var(--color-primary-dark);
+  color: white;
+}
+
+.modal-secondary .modal-header {
+  background-color: var(--color-secondary-dark);
+  color: white;
+}
+
 .btn-outline {
   font-weight: bold;
   font-size: 85%;

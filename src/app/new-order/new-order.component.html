@@ -1,5 +1,5 @@
 <div *ngIf="!hasErrors; else errorTemplate">
-  <div class="card w-75 mx-auto">
+  <div class="card card-shadows w-75 mx-auto">
     <div class="card-body">
       <h2 class="card-title">Completamento ordine</h2>
       <p class="card-subtitle mb-3 text-muted">Inserisci le informazioni richieste per comfermare l'ordine.</p>
@@ -47,7 +47,7 @@
     </div>
   </div>
   
-  <div class="modal fade" id="orderConfirmed" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal modal-secondary fade" id="orderConfirmed" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -67,7 +67,7 @@
     </div>
   </div>
   
-  <div class="modal fade" id="abortOrder" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal modal-primary fade" id="abortOrder" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
