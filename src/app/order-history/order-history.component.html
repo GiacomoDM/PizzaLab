@@ -48,6 +48,7 @@
             </td>
             <td class="text-center"> {{order.total | number: '1.2-2'}} </td>
           </tr>
+          <td *ngIf="orders.length === 0" colspan="6" class="text-center text-danger font-weight-bold">Nessun ordine evaso</td>
         </tbody>
       </table>
       <pagination-controls 
