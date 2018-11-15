@@ -1,85 +1,95 @@
-<div class="card w-75 mx-auto">
-  <div class="card-body">
-    <h2 class="card-title">Completamento ordine</h2>
-    <p class="card-subtitle mb-3 text-muted">Inserisci le informazioni richieste per comfermare l'ordine.</p>
-
-    <div class="row mb-3">
-      <p class="col-sm-3">Prodotti</p>
-      <div class="col-sm-9">
-        <ul class="list-group">
-          <li *ngFor="let item of orderItems" class="list-group-item d-flex justify-content-between py-1">
-            <span>{{item.name}}</span>
-            <span>{{item.price | number: '1.2-2'}} €</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <form [formGroup]="orderForm" class="mb-3" id="confirmOrder" (ngSubmit)="onSubmit()">
-      <div class="form-group row">
-        <label for="client" class="col-sm-3 col-form-label">Destinatario</label>
+<div *ngIf="!hasErrors; else errorTemplate">
+  <div class="card w-75 mx-auto">
+    <div class="card-body">
+      <h2 class="card-title">Completamento ordine</h2>
+      <p class="card-subtitle mb-3 text-muted">Inserisci le informazioni richieste per comfermare l'ordine.</p>
+  
+      <div class="row mb-3">
+        <p class="col-sm-3">Prodotti</p>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="client" placeholder="Destinatario" required formControlName="client">
+          <ul class="list-group">
+            <li *ngFor="let item of orderItems" class="list-group-item d-flex justify-content-between py-1">
+              <span>{{item.name}}</span>
+              <span>{{item.price | number: '1.2-2'}} €</span>
+            </li>
+          </ul>
+          <span *ngIf="orderItems.length === 0" class="text-danger">Nessun prodotto nell'ordine.</span>
         </div>
       </div>
-      <div class="form-group row">
-        <label for="address" class="col-sm-3 col-form-label">Indirizzo</label>
-        <div class="col-sm-9">
-          <input type="text" #searchAddress class="form-control" id="address" placeholder="Indirizzo" required>
+      <form [formGroup]="orderForm" class="mb-3" id="confirmOrder" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <label for="client" class="col-sm-3 col-form-label">Destinatario</label>
+          <div class="col-sm-9">
+            <input #name type="text" class="form-control" [class.is-invalid]="!validateName(name.value)" id="client" placeholder="Destinatario" formControlName="client">
+            <span *ngIf="!validateName(name.value)" class="text-danger">Nome inserito non valido</span>
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="delivery" class="col-sm-3 col-form-label">Orario consegna</label>
-        <div class="col-sm-9">
-          <input #inputTime type="time" id="delivery" min="{{minHour}}" max="{{maxHour}}" step="{{deliveryStep}}" required formControlName="delivery" [class]="validateTime(inputTime.value) ? 'form-control' : 'form-control is-invalid'">
-          <span *ngIf="!validateTime(inputTime.value)" class="text-danger">Inserire un orario nell'intervallo {{minHour}} - {{maxHour}}</span>
+        <div class="form-group row">
+          <label for="address" class="col-sm-3 col-form-label">Indirizzo</label>
+          <div class="col-sm-9">
+            <input type="text" #searchAddress class="form-control" id="address" placeholder="Indirizzo">
+          </div>
         </div>
+        <div class="form-group row">
+          <label for="delivery" class="col-sm-3 col-form-label">Orario consegna</label>
+          <div class="col-sm-9">
+            <input #inputTime type="time" id="delivery" min="{{minHour}}" max="{{maxHour}}" step="{{deliveryStep}}" formControlName="delivery" [class.is-invalid]="!validateTime(inputTime.value)" class="form-control">
+            <span *ngIf="!validateTime(inputTime.value)" class="text-danger">Inserire un orario nell'intervallo {{minHour}} - {{maxHour}}</span>
+          </div>
+        </div>
+      </form>
+      <div class="row d-flex justify-content-between mb-4 px-3">
+        <span>Totale ordine</span>
+        <span>{{getTotal() | number: '1.2-2'}} €</span>
       </div>
-    </form>
-    <div class="row d-flex justify-content-between mb-4 px-3">
-      <span>Totale ordine</span>
-      <span>{{getTotal() | number: '1.2-2'}} €</span>
-    </div>
-    <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#abortOrder">ANNULLA</button>
-    <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid || !autocomplete.getPlace() || !validateTime(inputTime.value)" data-toggle="modal" data-target="#orderConfirmed">CONFERMA</button>
-  </div>
-</div>
-
-<div class="modal fade" id="orderConfirmed" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Ordine confermato!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        L'inserimento dell'ordine è andato a buon fine. È possibile visualizzarlo negli ordini da consegnare.
-      </div>
-      <div class="modal-footer justify-content-between">
-        <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/dashboard" data-dismiss="modal">TORNA ALLA HOME</a>
-        <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/delivery" data-dismiss="modal">ORDINI DA CONSEGNARE</a>
-      </div>
+      <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-toggle="modal" data-target="#abortOrder">ANNULLA</button>
+      <button type="submit" form="confirmOrder" class="btn btn-success btn-fill btn-fill-confirm float-right" [disabled]="!orderForm.valid || !autocomplete.getPlace() || !validateTime(inputTime.value) || orderItems.length === 0 || !validateName(name.value)" data-toggle="modal" data-target="#orderConfirmed">CONFERMA</button>
     </div>
   </div>
-</div>
-
-<div class="modal fade" id="abortOrder" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Cancella ordine</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Confermando l'operazione tutti i prodotti inseriti nell'ordine corrente verranno eliminati.
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
-        <button type="button" class="btn btn-success btn-fill btn-fill-confirm" data-dismiss="modal" routerLink="/dashboard">CONFERMA</button>
+  
+  <div class="modal fade" id="orderConfirmed" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ordine confermato!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          L'inserimento dell'ordine è andato a buon fine. È possibile visualizzarlo negli ordini da consegnare.
+        </div>
+        <div class="modal-footer justify-content-between">
+          <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/dashboard" data-dismiss="modal">TORNA ALLA HOME</a>
+          <a class="btn btn-outline-primary btn-outline" role="button" routerLink="/delivery" data-dismiss="modal">ORDINI DA CONSEGNARE</a>
+        </div>
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" id="abortOrder" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancella ordine</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Confermando l'operazione tutti i prodotti inseriti nell'ordine corrente verranno eliminati.
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
+          <button type="button" class="btn btn-success btn-fill btn-fill-confirm" data-dismiss="modal" routerLink="/dashboard">CONFERMA</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #errorTemplate>
+  <div class="container">
+    <app-error [errorMsg]="errorMsg"></app-error>
+  </div>
+</ng-template>

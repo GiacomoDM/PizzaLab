@@ -1,140 +1,163 @@
-<div class="card mx-4">
-  <div class="card-body">
-    <h2 class="card-title">Gestione prodotti</h2>
-    <div class="form-row">
-      <div class="form-group col-sm-7">
-        <div class="input-group">
-          <input class="form-control" placeholder="Cerca prodotti" [(ngModel)]="searchFilter.name">
-          <i *ngIf="searchFilter.name.length > 0" class="material-icons clear-icon" (click)="searchFilter.name = ''">clear</i>
-          <div class="input-group-append">
-            <div class="input-group-text"><i class="material-icons">search</i></div>
+<div *ngIf="!hasErrors; else errorTemplate">
+  <ng-container *ngIf="categories.length === 0; else allGoodTemplate">
+    <div class="container mx-auto">
+      <div class="card text-center">
+        <div class="card-body">
+          <h2 class="card-title">Gestione prodotti</h2>
+          <p class="card-text text-danger font-weight-bold">Nessuna categoria rilevata. <br>
+            Prima di aggiungere, eliminare o gestire i prodotti è necessario aggiungerne una, tramite <a routerLink="/admin/misc">Amministrazione - Configurazione</a></p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #allGoodTemplate>
+    <div class="card mx-4">
+      <div class="card-body">
+        <h2 class="card-title">Gestione prodotti</h2>
+        <div class="form-row">
+          <div class="form-group col-sm-7">
+            <div class="input-group">
+              <input class="form-control" [class.is-invalid]="(products | filterBy: searchFilter).length === 0" placeholder="Cerca prodotti" [(ngModel)]="searchFilter.name">
+              <i *ngIf="searchFilter.name.length > 0" class="material-icons clear-icon" (click)="searchFilter.name = ''">clear</i>
+              <div class="input-group-append">
+                <div class="input-group-text"><i class="material-icons">search</i></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-5">
+            <select class="form-control" [(ngModel)]="searchFilter.categoryId">
+              <option value=''>Tutte le categorie</option>
+              <option *ngFor="let category of categories" value={{category.id}}>{{category.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive text-center">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="w-7" (click)="reverse('id'); sortType='id'">
+                  #
+                  <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                  <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+                </th>
+                <th scope="col" class="text-left" (click)="reverse('name'); sortType='name'">
+                  Nome
+                  <i *ngIf="sortType==='name' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                  <i *ngIf="sortType==='name' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+                </th>
+                <th scope="col" class="text-left" (click)="reverse('categoryId'); sortType='categoryId'">
+                  Categoria
+                  <i *ngIf="sortType==='categoryId' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                  <i *ngIf="sortType==='categoryId' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+                </th>
+                <th scope="col" class="w-12" (click)="reverse('price'); sortType='price'">
+                  Prezzo (€)
+                  <i *ngIf="sortType==='price' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
+                  <i *ngIf="sortType==='price' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
+                </th>
+                <th scope="col" class="w-5"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <td colspan="5" *ngIf="!products.length > 0">Nessun prodotto trovato</td>
+              <tr *ngFor="let product of products | orderBy:sortType:sortReverse:true | filterBy: searchFilter | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+                <th scope="row"> {{product.id}} </th>
+                <td class="text-left"> {{product.name}} </td>
+                <td class="text-left"> {{getCategoryName(product)}} </td>
+                <td> {{product.price | number: '1.2-2'}} </td>
+                <td> 
+                  <i class="material-icons hiddenButton" id="removeBtn" data-toggle="modal" data-target="#deleteProductModal" (click)="onSelect(product.id)"> delete </i> 
+                </td>
+              </tr>
+              <td colspan="5" *ngIf="(products | filterBy: searchFilter).length === 0" class="text-danger font-weight-bold">Nessun risultato per la ricerca</td>
+            </tbody>
+          </table>
+          <pagination-controls 
+            class="pagination justify-content-center" 
+            (pageChange)="currentPage = $event" 
+            autoHide="true" 
+            responsive="true"
+            previousLabel=""
+            nextLabel=""> 
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+    
+    <button type="button" class="btn btn-success btn-fill btn-fill-confirm d-flex" id="addProductBtn" data-toggle="modal" data-target="#addProductModal">
+      <i class="material-icons align-bottom position-relative">add</i>
+      <span class="align-self-end pr-1">AGGIUNGI PRODOTTO</span>
+    </button>
+    
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModal" aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductModal">Aggiungi un prodotto</h5>
+            <button #addClose type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="addForm" id="addProductForm" (ngSubmit)="onSubmit()">
+              <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">Nome</label>
+                <div class="col-sm-9">
+                  <input #name type="text" [class.is-invalid]="usedName(name.value) || !validateName(name.value)" class="form-control" id="name" placeholder="Nome" formControlName="name">
+                  <span *ngIf="usedName(name.value)" class="text-danger">Esiste già un prodotto con quel nome!</span>
+                  <span *ngIf="!validateName(name.value)" class="text-danger">Nome inserito non valido</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="category" class="col-sm-3 col-form-label">Categoria</label>
+                <div class="col-sm-9">
+                  <select class="form-control" id="category" formControlName="category">
+                    <option *ngFor="let category of categories" value={{category.name}}>{{category.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="price" class="col-sm-3 col-form-label">Prezzo (€)</label>
+                <div class="col-sm-9">
+                  <input type="number" min="0.5" step="any" class="form-control" id="price" placeholder="Prezzo" formControlName="price">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="addForm.reset()" data-dismiss="modal">ANNULLA</button>
+            <button type="submit" form="addProductForm" class="btn btn-success btn-fill btn-fill-confirm" [disabled]="!addForm.valid || usedName(name.value) || !validateName(name.value)">CONFERMA</button>
           </div>
         </div>
       </div>
-      <div class="form-group col-sm-5">
-        <select class="form-control" [(ngModel)]="searchFilter.categoryId">
-          <option value=''>Tutte le categorie</option>
-          <option *ngFor="let category of categories" value={{category.id}}>{{category.name}}</option>
-        </select>
+    </div>
+    
+    <div *ngIf="selectedProduct" class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModal" aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteProductModal">Elimina prodotto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Sei sicuro di voler rimuovere il prodotto {{selectedProduct.name}}?
+            <br>
+            L'operazione è irreversibile.
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
+            <button type="submit" form="editPizzaForm" class="btn btn-success btn-fill btn-fill-confirm" (click)="deleteProduct(selectedProduct)" data-dismiss="modal">CONFERMA</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="table-responsive text-center">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col" class="w-7" (click)="reverse('id'); sortType='id'">
-              #
-              <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
-              <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
-            </th>
-            <th scope="col" class="text-left" (click)="reverse('name'); sortType='name'">
-              Nome
-              <i *ngIf="sortType==='name' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
-              <i *ngIf="sortType==='name' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
-            </th>
-            <th scope="col" class="text-left" (click)="reverse('categoryId'); sortType='categoryId'">
-              Categoria
-              <i *ngIf="sortType==='categoryId' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
-              <i *ngIf="sortType==='categoryId' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
-            </th>
-            <th scope="col" class="w-12" (click)="reverse('price'); sortType='price'">
-              Prezzo (€)
-              <i *ngIf="sortType==='price' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
-              <i *ngIf="sortType==='price' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
-            </th>
-            <th scope="col" class="w-5"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <td colspan="5" *ngIf="!products.length > 0">Nessun prodotto trovato</td>
-          <tr *ngFor="let product of products | orderBy:sortType:sortReverse:true | filterBy: searchFilter | paginate: { itemsPerPage: 10, currentPage: currentPage }">
-            <th scope="row"> {{product.id}} </th>
-            <td class="text-left"> {{product.name}} </td>
-            <td class="text-left"> {{getCategoryName(product)}} </td>
-            <td> {{product.price | number: '1.2-2'}} </td>
-            <td> 
-              <i class="material-icons hiddenButton" id="removeBtn" data-toggle="modal" data-target="#deleteProductModal" (click)="onSelect(product.id)"> delete </i> 
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls 
-        class="pagination justify-content-center" 
-        (pageChange)="currentPage = $event" 
-        autoHide="true" 
-        responsive="true"
-        previousLabel=""
-        nextLabel=""> 
-      </pagination-controls>
-    </div>
-  </div>
+  </ng-template>
 </div>
 
-<button type="button" class="btn btn-success btn-fill btn-fill-confirm d-flex" id="addProductBtn" data-toggle="modal" data-target="#addProductModal">
-  <i class="material-icons align-bottom position-relative">add</i>
-  <span class="align-self-end pr-1">AGGIUNGI PRODOTTO</span>
-</button>
-
-<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModal" aria-hidden="true" data-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addProductModal">Aggiungi un prodotto</h5>
-        <button #addClose type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="addForm" id="addProductForm" (ngSubmit)="onSubmit()">
-          <div class="form-group row">
-            <label for="name" class="col-sm-3 col-form-label">Nome</label>
-            <div class="col-sm-9">
-              <input #name type="text" [class]="usedName(name.value) ? 'form-control is-invalid' : 'form-control'" id="name" placeholder="Nome" required formControlName="name">
-              <span *ngIf="usedName(name.value)" class="text-danger">Esiste già un prodotto con quel nome!</span>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="category" class="col-sm-3 col-form-label">Categoria</label>
-            <div class="col-sm-9">
-              <select class="form-control" id="category" required formControlName="category">
-                <option *ngFor="let category of categories" value={{category.name}}>{{category.name}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="price" class="col-sm-3 col-form-label">Prezzo (€)</label>
-            <div class="col-sm-9">
-              <input type="number" min="0.5" step="any" class="form-control" id="price" placeholder="Prezzo" required formControlName="price">
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" (click)="addForm.reset()" data-dismiss="modal">ANNULLA</button>
-        <button type="submit" form="addProductForm" class="btn btn-success btn-fill btn-fill-confirm" [disabled]="!addForm.valid || usedName(name.value)">CONFERMA</button>
-      </div>
-    </div>
+<ng-template #errorTemplate>
+  <div class="container">
+    <app-error [errorMsg]="errorMsg"></app-error>
   </div>
-</div>
-
-<div *ngIf="selectedProduct" class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModal" aria-hidden="true" data-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteProductModal">Elimina prodotto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Sei sicuro di voler rimuovere il prodotto {{selectedProduct.name}}?
-        <br>
-        L'operazione è irreversibile.
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-outline-danger btn-outline btn-outline-abort" data-dismiss="modal">ANNULLA</button>
-        <button type="submit" form="editPizzaForm" class="btn btn-success btn-fill btn-fill-confirm" (click)="deleteProduct(selectedProduct)" data-dismiss="modal">CONFERMA</button>
-      </div>
-    </div>
-  </div>
-</div>
+</ng-template>

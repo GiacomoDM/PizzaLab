@@ -11,7 +11,7 @@ import { OrderItem } from './../orderItem';
 })
 export class OrderHistoryComponent implements OnInit {
 
-  orders: Order[];
+  orders: Order[] = [];
   hasErrors: boolean;
   errorMsg: string;
   currentPage = 1;

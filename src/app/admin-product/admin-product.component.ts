@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl} from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 import { Product } from '../product';
 import { Category } from '../category';
@@ -14,12 +14,13 @@ import { CategoryService } from '../category.service';
 })
 export class AdminProductComponent implements OnInit {
 
-  categories: Category[];
+  categories: Category[] = [];
   products: Product[] = [];
   selectedProduct: Product;
   hasErrors: boolean;
   errorMsg: string;
   addForm: FormGroup;
+  namePattern = /^[a-z \u00C0-\u017F,.\'-]{2,30}$/i;
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
   currentPage = 1;
@@ -35,9 +36,9 @@ export class AdminProductComponent implements OnInit {
     private categoryService: CategoryService
   ) {
       this.addForm = new FormGroup({
-        name: new FormControl(),
-        price: new FormControl(),
-        category: new FormControl()
+        name: new FormControl(null, [Validators.pattern(this.namePattern), Validators.required]),
+        price: new FormControl(null, Validators.required),
+        category: new FormControl(null, Validators.required)
     });
    }
 
@@ -120,6 +121,16 @@ export class AdminProductComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  validateName(name: string): boolean {
+    if (name) {
+      if (name.trim().match(this.namePattern)) {
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
 
   onSubmit(): void {
