@@ -37,6 +37,8 @@ A populated test database is already provided (see the file `/db.json`). To star
 json-server --watch db.json
 ```
 
+The addresses for all Http calls are hardcoded and point to the standard address given by *json-server*: `http://localhost:3000/`.
+
 ## Development server
 
 For a dev server, run:
