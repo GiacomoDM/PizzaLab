@@ -167,7 +167,7 @@ export class AdminMiscComponent implements OnInit, AfterViewInit {
     );
   }
 
-  onSelect(id: number) {
+  onSelect(id: string) {
     this.selectedCategory = this.categories.find(c => c.id === id);
   }
 

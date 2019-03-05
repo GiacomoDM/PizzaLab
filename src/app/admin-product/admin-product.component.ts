@@ -20,11 +20,11 @@ export class AdminProductComponent implements OnInit {
   hasErrors: boolean;
   errorMsg: string;
   addForm: FormGroup;
-  namePattern = /^[a-z \u00C0-\u017F,.\'-]{2,30}$/i;
+  namePattern = /^[a-z 0-9\u00C0-\u017F,.\'-]{2,30}$/i;
   validName: boolean;
   @ViewChild('addClose') addClose: ElementRef;
   currentPage = 1;
-  sortType = 'id';
+  sortType = 'name';
   sortReverse = false;
   searchFilter = {
     'name': '',
@@ -77,8 +77,13 @@ export class AdminProductComponent implements OnInit {
   addProduct(product: Product): void {
     this.productService.addProduct(product)
     .subscribe(
-      newProd => {
+      /* newProd => {
         this.products.push(newProd);
+        this.addForm.reset();
+        this.hasErrors = false;
+      }, */
+      () => {
+        this.products.push(product);
         this.addForm.reset();
         this.hasErrors = false;
       },
@@ -108,11 +113,11 @@ export class AdminProductComponent implements OnInit {
     return this.categories.find(cat => cat.id === product.categoryId).name;
   }
 
-  getCategoryId(name: string): number {
+  getCategoryId(name: string): string {
     return this.categories.find(cat => cat.name === name).id;
   }
 
-  onSelect(id: number) {
+  onSelect(id: string) {
     this.selectedProduct = this.products.find(p => p.id === id);
   }
 

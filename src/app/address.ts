@@ -1,4 +1,4 @@
-/*  */export class Address {
+export class Address {
   name: string;
   lat: number;
   lng: number;

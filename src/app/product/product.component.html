@@ -1,5 +1,5 @@
 <div *ngIf="!hasErrors; else errorTemplate" class="card card-shadows mb-3 category-card">
-  <img class="card-img-top" src="../../assets/img/product{{category.id}}.jpg" alt="Card image cap">
+  <img class="card-img-top" src="../../assets/img/{{category.name}}.jpg" alt="Card image cap">
   <div class="card-body p-3">
       <h5 class="card-title mb-0 align-self-center">{{category.name}}</h5>
       <p *ngIf="products.length === 0" class="card-text text-center text-danger font-weight-bold">Nessun prodotto in questa categoria</p>

@@ -6,15 +6,18 @@ import { catchError, retry } from 'rxjs/operators';
 import { Product } from './product';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  })
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private productsUrl = 'http://localhost:3000/products';
-  private baseUrl = 'http://localhost:3000/categories';
+  private productsUrl = 'http://localhost:8081/products';
+  private baseUrl = 'http://localhost:8080/categories';
 
   constructor( private http: HttpClient ) { }
 
@@ -26,8 +29,8 @@ export class ProductService {
     );
   }
 
-  getProductsByCategory(id: number): Observable<Product[]> {
-    const url = `${this.baseUrl}/${id}/products`;
+  getProductsByCategory(id: string): Observable<Product[]> {
+    const url = `http://localhost:8081/categories/${id}/products`;
     return this.http.get<Product[]>(url)
     .pipe(
       retry(3),

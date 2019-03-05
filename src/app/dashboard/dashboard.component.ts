@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  removeProduct(id: number): void {
+  removeProduct(id: string): void {
     this.currentOrder = this.currentOrder.filter(p => p.id !== id);
   }
 }

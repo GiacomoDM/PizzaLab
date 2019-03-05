@@ -7,14 +7,17 @@ import { Product } from './product';
 import { Order } from './order';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  })
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private ordersUrl = 'http://localhost:3000/orders';
+  private ordersUrl = 'http://localhost:8082/orders';
 
   orderItems: Product[] = [];
 

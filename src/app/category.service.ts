@@ -6,7 +6,10 @@ import { catchError, retry } from 'rxjs/operators';
 import { Category } from './category';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  })
 };
 
 @Injectable({
@@ -14,7 +17,7 @@ const httpOptions = {
 })
 export class CategoryService {
 
-  private categoriesUrl = 'http://localhost:3000/categories';
+  private categoriesUrl = 'http://localhost:8080/categories';
 
   constructor( private http: HttpClient ) { }
 

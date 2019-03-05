@@ -6,7 +6,10 @@ import { catchError, retry } from 'rxjs/operators';
 import { Address } from './address';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  })
 };
 
 @Injectable({
@@ -14,8 +17,8 @@ const httpOptions = {
 })
 export class SettingsService {
 
-  private addressUrl = 'http://localhost:3000/baseAddress';
-  private timesUrl = 'http://localhost:3000/deliveryTimes';
+  private addressUrl = 'http://localhost:8083/baseAddress';
+  private timesUrl = 'http://localhost:8083/deliveryTimes';
 
   constructor( private http: HttpClient ) { }
 

@@ -2,7 +2,7 @@ import { Address } from './address';
 import { OrderItem } from './orderItem';
 
 export class Order {
-  id: number;
+  id: string;
   client: string;
   address: Address;
   delivery: Date;

@@ -8,8 +8,8 @@
           <div class="list-group dragula-container" [class.dragula-container]="orders.length === 0" dragula="ORDERS" [(dragulaModel)]="orders" orders>
             <div *ngFor="let order of orders | paginate: { itemsPerPage: 8, currentPage: currentPage }" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 align-items-stretch justify-content-between">
-                <span class="align-self-center font-weight-bold">{{order.id}}</span>
-                <div class="flex-grow-1 mx-3">
+                <!-- <span class="align-self-center font-weight-bold">{{order.id}}</span> -->
+                <div class="flex-grow-1 mr-3">
                   <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address.name}}</span>
                   <div>
                     <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>
@@ -48,8 +48,8 @@
           <div class="list-group" [class.dragula-container]="delivery.length === 0" dragula="ORDERS" [(dragulaModel)]="delivery" delivery>
             <div *ngFor="let order of delivery" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 align-items-stretch justify-content-between">
-                <span class="align-self-center font-weight-bold">{{order.id}}</span>
-                <div class="flex-grow-1 mx-3">
+                <!-- <span class="align-self-center font-weight-bold">{{order.id}}</span> -->
+                <div class="flex-grow-1 mr-3">
                   <span><span class="font-weight-bold">Consegna</span>: {{order.client}} - {{order.address.name}}</span>
                   <div>
                     <span class="pr-2"><span class="font-weight-bold">Orario</span>: {{order.delivery | date:'HH:mm - dd/MM'}}</span>

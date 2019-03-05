@@ -5,11 +5,11 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col" class="text-center" (click)="reverse('id'); sortType='id'">
+            <!-- <th scope="col" class="text-center" (click)="reverse('id'); sortType='id'">
               #
               <i *ngIf="sortType==='id' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
               <i *ngIf="sortType==='id' && sortReverse" class="material-icons align-top">arrow_drop_up</i>
-            </th>
+            </th> -->
             <th scope="col" (click)="reverse('client'); sortType='client'">
               Cliente
               <i *ngIf="sortType==='client' && !sortReverse" class="material-icons align-top">arrow_drop_down</i>
@@ -31,7 +31,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let order of orders | orderBy:sortType:sortReverse:true | paginate: { itemsPerPage: 10, currentPage: currentPage }">
-            <th scope="row" class="text-center"> {{order.id}} </th>
+            <!-- <th scope="row" class="text-center"> {{order.id}} </th> -->
             <td > {{order.client}} </td>
             <td> {{order.address.name}} </td>
             <td> {{order.delivery | date:'dd/MM/yyyy - HH:mm'}} </td>
@@ -48,7 +48,7 @@
             </td>
             <td class="text-center"> {{order.total | number: '1.2-2'}} </td>
           </tr>
-          <td *ngIf="orders.length === 0" colspan="6" class="text-center text-danger font-weight-bold">Nessun ordine evaso</td>
+          <td *ngIf="orders.length === 0" colspan="5" class="text-center text-danger font-weight-bold">Nessun ordine evaso</td>
         </tbody>
       </table>
       <pagination-controls 
